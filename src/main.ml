@@ -4,6 +4,7 @@ open Utils
 open Player
 open Engine
 open Player
+open Snake
 
 (* Initialisation du monde *)
 
@@ -18,14 +19,20 @@ let random_position () : int * int = (Random.int width, Random.int height)
 let () =
   for _ = 0 to 200 do set (random_position ()) Cactus   done 
 
-let camel_initial_position = random_position ()
-let () = set camel_initial_position Camel
+let camel_initial_position1 = random_position ()
+(* let camel_initial_position2 = random_position () *)
+let snake_initial_position = random_position ()
+let () = set camel_initial_position1 Camel; 
+         (* set camel_initial_position2 Camel; *)
+         set snake_initial_position Snake
 
 
 
 (* La file contient uniquement le tour du chameau *)
 
-let () = Queue.add (fun () -> player (fun () -> camel camel_initial_position)) queue
+let () = Queue.add (fun () -> player (fun () -> camel camel_initial_position1)) queue;
+         (* Queue.add (fun () -> player (fun () -> camel camel_initial_position2)) queue; *)
+         Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue
 
 (* Début du jeu *)
 let () = run_queue ()
