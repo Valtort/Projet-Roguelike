@@ -61,8 +61,6 @@ let rec elephant (current_position : int * int) : unit =
       perform End_of_turn;
     done;
     elephant !pos;
-    (* On arrête ici l'éxécution car les appels à elephant ne terminent jamais.
-    Donc tout le code ci-dessous ne sera pas considéré si on appelle (elephant !pos)*)
   end
   else begin (* Si on ne voit pas le chameau, bouger aléatoirement *)
     let new_position = move current_position (current_position ++ random_direction ()) in
