@@ -7,7 +7,6 @@ open Engine
 open Player
 open Elephant
 open Spider
-
 (* Initialisation du monde *)
 
 (* Initialisation du module Random*)
@@ -16,7 +15,7 @@ let () = Random.self_init ()
 (** [random_position ()] renvoie une position aléatoire dans le monde*)
 let random_position () : int * int = (Random.int width, Random.int height)
 
-(* Place les cactus et le chameau initialement.*)
+(* Place les cactus, le chameau, l'éléphant initialement.*)
 
 let () =
   for _ = 0 to 200 do set (random_position ()) Cactus   done
@@ -36,10 +35,18 @@ let () = set spider_initial_position Spider
 
 (* La file d'exécution *)
 let () =
+<<<<<<< HEAD
  Queue.add (fun () -> player (fun () -> camel camel_initial_position)) queue;
  Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue;
  Queue.add (fun () -> player (fun () -> elephant elephant_initial_position)) queue;
  Queue.add (fun () -> player (fun () -> spider spider_initial_position)) queue;;
+=======
+  Queue.add (fun () -> player (fun () -> camel camel_initial_position)) queue;
+  Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue;
+  Queue.add (fun () -> player (fun () -> elephant elephant_initial_position)) queue;
+  Queue.add (fun () -> player (fun () -> spider spider_initial_position)) queue;;
+
+>>>>>>> Valentin
 
 (* Début du jeu *)
 let () = run_queue ()

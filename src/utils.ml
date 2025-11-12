@@ -18,7 +18,7 @@ let move (old_position : int * int) (new_position : int * int) : int * int =
       new_position
   | _ -> old_position
 
-(** [correct_coordinates coord] renvoi [true] si les coordonnées coord sont
+(** [correct_coordinates coord] renvoi [true] si les coordonnées [(x,y)] sont
 valides, et [false] sinon *)
 let correct_coordinates ((x, y): int * int) : bool =
   (0 <= x) && (x < width) && (0 <= y) && (y < height);;
