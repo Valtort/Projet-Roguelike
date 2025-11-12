@@ -19,8 +19,8 @@ let rec keyboard_direction () : int * int =
   | _                       -> keyboard_direction () 
   (*Modification pour que le tour d'un joueur ne soit pas skip si on touche une mauvaise touche*)
 
-(** [caml current_pos] effectue tous les prochains tours du chameau à partir de la position 
-    [current_pos] (attendre une entrée, se déplacer en conséquence, recommencer)*)
+(** [camel current_position] effectue tous les prochains tours du chameau à partir de la position
+    [current_position] (attendre une entrée, se déplacer en conséquence, recommencer)*)
 let rec camel (current_position : int * int) : unit =
   let new_position = current_position ++ keyboard_direction () in
   let new_position = move current_position new_position in

@@ -11,7 +11,7 @@ let string_of_cell : cell -> string = function
 
 (* Codes des emojis pour les animaux pertinents
    serpent : "\u{1F40D}"
-   éléphant : "\u{1F418}"
+   éléphant : s"\u{1F418}"
    araignée : "\u{1F577} "
    oeuf : "\u{1F95A}"
    Des sites comme l'emojipedia peuvent vous donner plus de codes.
