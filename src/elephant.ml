@@ -6,43 +6,53 @@ open Effect.Deep
 open Engine
 open World
 
-let can_see_caml ((x_e, y_e) : int * int) : bool * (int * int) =
-  let see_caml = ref false
-  and dir = ref (0, 0)
-  and x = ref x_e and y = ref y_e in
-  while (not !see_caml) || (!x) < width || not (is_empty (!x, !y)) do
-    if (is_camel (!x, !y)) then (see_caml := true; dir := (1, 0));
-    incr x
-  done;
-  while (not !see_caml) || (!x) >= 0 || not (is_empty (!x, !y)) do
-    if (is_camel (!x, !y)) then (see_caml := true; dir := (-1, 0));
-    decr x
-  done;
-  while (not !see_caml) || (!y) < height || not (is_empty (!x, !y)) do
-    if (is_camel (!x, !y)) then (see_caml := true; dir := (0, 1));
-    incr y
-  done;
-  while (not !see_caml) || (!y) >= 0 || not (is_empty (!x, !y)) do
-    if (is_camel (!x, !y)) then (see_caml := true; dir := (0, -1));
-    decr y
-  done;
-  !see_caml, !dir;;
+let dir_to_camel (x, y : int * int) : int * int =
+  (* Directions à vérifier: seulement horizontal et vertical *)
+  let directions = [
+    (1, 0);
+    (-1, 0);
+    (0, 1);
+    (0, -1);
+  ] in
+  (* Vérifie si on peut voir un camel dans une direction donnée *)
+  let rec check_direction (pos_x, pos_y : int * int) (dx, dy : int * int) : bool =
+    let next_x, next_y = pos_x + dx, pos_y + dy in
+    match get (next_x, next_y) with
+    | Camel -> true
+    | Empty -> check_direction (next_x, next_y) (dx, dy)
+    | _     -> false
+  in
+  (* Trouve la première direction où on voit un camel *)
+  match List.find_opt (check_direction (x, y)) directions with
+  | Some dir -> dir  (* Retourne la direction du camel *)
+  | None -> (0, 0)   (* Aucun camel visible *);;
+
+let cactus_before (x, y) (dx, dy) : bool =
+  let cactus_cell = (x+dx, y+dy) in
+  (correct_coordinates cactus_cell) && (is_cactus cactus_cell)
 
 let rec elephant (current_position : int * int) : unit =
-  let see_caml, (dir_x, dir_y) = can_see_caml current_position in
-  if see_caml then begin
-    for i=0 to 9 do
-      let new_position = current_position ++ (dir_x, dir_y) in
-      let new_position = move current_position new_position in
+  let dir = dir_to_camel current_position in
+  let can_see = not (dir = (0, 0)) in
+  if can_see then begin (* Si on peut voir le chameau *)
+    let pos = ref current_position in
+    for _=0 to 9 do (* Avancer 10 fois dans la direction du chameau *)
+      if cactus_before !pos dir then begin (* Si on voit un cactus, rester stun 20 tours*)
+        for _=0 to 19 do
+          render ();
+          perform End_of_turn;
+        done;
+        elephant !pos;
+      end;
+      pos := move !pos (!pos ++ dir);
       render ();
       perform End_of_turn;
-      if (i = 9) then elephant new_position;
-    done
+    done;
+    elephant !pos;
   end
-  else begin
-    let new_position = current_position ++ random_direction () in
-    let new_position = move current_position new_position in
-    perform End_of_turn;
+  else begin (* Si on ne voit pas le chameau, bouger aléatoirement *)
+    let new_position = move current_position (current_position ++ random_direction ()) in
     render ();
+    perform End_of_turn;
     elephant new_position;
-  end
+  end;;
