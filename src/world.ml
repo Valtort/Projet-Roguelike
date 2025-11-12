@@ -1,7 +1,8 @@
 (** Type du contenu d'une case du monde. *)
-type cell = Empty | Cactus | Camel | Snake | Elephant | Mushroom
+type cell = Empty | Cactus | Camel | Snake | Elephant | Cookie
 
 let width, height = 50, 30
+let nb_cookies = 10
 
 (** Le monde [world] est un tableau mutable. *)
 let world : cell array array = Array.make_matrix width height Empty

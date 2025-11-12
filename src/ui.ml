@@ -8,14 +8,14 @@ let string_of_cell : cell -> string = function
   | Camel      -> "\u{1F42A}"
   | Snake      -> "\u{1F40D}"
   | Elephant   -> "\u{1F418}"
-  | Mushroom   -> "\u{1F344}"
+  | Cookie   -> "\u{1F36A}"
 
 (* Codes des emojis pour les animaux pertinents
    serpent : "\u{1F40D}"
-   éléphant : s"\u{1F418}"
+   éléphant : "\u{1F418}"
    araignée : "\u{1F577} "
    oeuf : "\u{1F95A}"
-   champi : "\u{1F344}"
+   cookie : "\u{1F36A}"
    Des sites comme l'emojipedia peuvent vous donner plus de codes.
 *)
 

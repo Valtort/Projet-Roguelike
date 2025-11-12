@@ -20,6 +20,9 @@ let random_position () : int * int = (Random.int width, Random.int height)
 let () =
   for _ = 0 to 200 do set (random_position ()) Cactus   done
 
+let () =
+  for _ = 1 to nb_cookies do set (random_position ()) Cookie done
+
 let camel_initial_position = random_position ();;
 let () = set camel_initial_position Camel;;
 
