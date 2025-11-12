@@ -5,7 +5,6 @@ open Effect
 open Effect.Deep
 open Engine
 open World
-open Engine
 open Player
 
 (** [random_position ()] renvoie une position aléatoire dans le monde*)
@@ -17,8 +16,8 @@ match x with
 | 3 -> (0, - 1)
 | _ -> (0, 0)
 
-(** [caml current_pos] effectue tous les prochains tours du chameau à partir de la position 
-    [current_pos] (attendre une entrée, se déplacer en conséquence, recommencer)*)
+(** [snake current_pos] effectue tous les prochains tours du serpent à partir de la position 
+    [current_pos] (choisir une direction aléatoire, se déplacer en conséquence, recommencer)*)
 let rec snake (current_position : int * int) : unit =
   let new_position = current_position ++ random_direction () in
   let new_position = move current_position new_position in
