@@ -23,10 +23,6 @@ valides, et [false] sinon *)
 let correct_coordinates ((x, y): int * int) : bool =
   (0 <= x) && (x < width) && (0 <= y) && (y < height);;
 
-(** [correct_coordinates (x,y)] vérifie si la coordonnée [(x,y)] est correct *)
-let correct_coordinates (x, y) : bool =
-  (0 <= x) && (x < width) && (0 <= y) && (y < height);;
-
 (** [random_direction ()] renvoie une direction aléatoire *)
 let random_direction () : int * int =
   let random_dir = Random.int 4 in
