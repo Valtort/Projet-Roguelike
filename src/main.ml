@@ -5,6 +5,7 @@ open Player
 open Engine
 open Player
 open Snake
+open Elephant
 
 (* Initialisation du monde *)
 
@@ -21,9 +22,11 @@ let () =
 
 let camel_initial_position1 = random_position ()
 let snake_initial_position = random_position ()
+let elephant_initial_position = random_position ()
 let () = set camel_initial_position1 Camel; 
          (* On place le serpent*)
-         set snake_initial_position Snake
+         set snake_initial_position Snake;
+         set elephant_initial_position Elephant
 
 
 
@@ -31,7 +34,9 @@ let () = set camel_initial_position1 Camel;
 
 let () = Queue.add (fun () -> player (fun () -> camel camel_initial_position1)) queue;
          (* Queue.add (fun () -> player (fun () -> camel camel_initial_position2)) queue; *)
-         Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue
+         Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue;
+         Queue.add (fun () -> player (fun () -> (elephant elephant_initial_position false false 0 (0,0)))) queue
+
 
 (* Début du jeu *)
 let () = run_queue ()
