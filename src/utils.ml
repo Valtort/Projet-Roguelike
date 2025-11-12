@@ -3,7 +3,7 @@ open World
 (** Déplacement d'une entité *)
 
 (** Opérateur somme pour les paires d'entiers*)
-let ( ++ ) (x, y : int * int) (dx, dy : int * int) : int * int = 
+let ( ++ ) (x, y : int * int) (dx, dy : int * int) : int * int =
   (x + dx, y + dy)
 
 (** [move old_pos new_pos] déplace le contenu de la case en [old_pos] vers la case [new_pos].
@@ -15,5 +15,19 @@ let move (old_position : int * int) (new_position : int * int) : int * int =
       let character = get old_position in
       set old_position Empty ;
       set new_position character ;
-      new_position   
+      new_position
   | _ -> old_position
+
+
+let random_direction () : int * int =
+  let random_dir = Random.int 4 in
+  match random_dir with
+  | 0 -> (- 1, 0)
+  | 1 -> (- 1, 0)
+  | 2 -> (0, + 1)
+  | 3 -> (0, - 1)
+  | _ -> (0, 0);;
+
+let is_cactus (x, y) = (world.(x).(y) = Cactus);;
+let is_camel(x, y) = (world.(x).(y) = Camel);;
+let is_empty(x, y) = (world.(x).(y) = Empty);;
