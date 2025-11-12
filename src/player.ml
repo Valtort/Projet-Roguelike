@@ -18,8 +18,8 @@ let keyboard_direction () : int * int =
   | `Key (`Arrow `Up,    _) -> (0, - 1)
   | _                       -> (0, 0)
 
-(** [caml current_pos] effectue tous les prochains tours du chameau à partir de la position
-    [current_pos] (attendre une entrée, se déplacer en conséquence, recommencer)*)
+(** [camel current_position] effectue tous les prochains tours du chameau à partir de la position
+    [current_position] (attendre une entrée, se déplacer en conséquence, recommencer)*)
 let rec camel (current_position : int * int) : unit =
   let new_position = current_position ++ keyboard_direction () in
   let new_position = move current_position new_position in
