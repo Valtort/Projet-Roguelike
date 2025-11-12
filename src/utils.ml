@@ -18,6 +18,8 @@ let move (old_position : int * int) (new_position : int * int) : int * int =
       new_position
   | _ -> old_position
 
+let correct_coordinates (x, y) : bool =
+  (0 <= x) && (x < width) && (0 <= y) && (y < height);;
 
 let random_direction () : int * int =
   let random_dir = Random.int 4 in
