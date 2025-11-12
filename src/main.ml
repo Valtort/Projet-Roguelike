@@ -34,7 +34,7 @@ let () = set elephant_initial_position Elephant
 
 let () = Queue.add (fun () -> player (fun () -> camel camel_initial_position)) queue
 let () = Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue
-let () = Queue.add (fun () -> player (fun () -> elephant elephant_initial_position)) queue
+let () = Queue.add (fun () -> player (fun () -> elephant elephant_initial_position 0)) queue
 
 (* Début du jeu *)
 let () = run_queue ()

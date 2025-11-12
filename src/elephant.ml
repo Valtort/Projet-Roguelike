@@ -31,12 +31,37 @@ let dir_to_camel (x, y : int * int) : int * int =
 
 (** [caml current_pos] effectue tous les prochains tours du chameau à partir de la position 
     [current_pos] (attendre une entrée, se déplacer en conséquence, recommencer)*)
-let rec elephant (current_position : int * int) : unit =
-  let direction = dir_to_camel current_position in
-  let new_position = match direction with
-  |(0, 0) -> move current_position (current_position ++ (random_direction ()))
-  |_ -> move current_position (current_position ++ direction)
-  in
-  render ();
-  perform End_of_turn;
-  elephant new_position
+let rec elephant (current_position : int * int) (charge : int * int) (count : int) : unit =
+  match charge, count with
+  |(0, 0), 0 -> 
+    (
+      let direction = dir_to_camel current_position in
+      let next_pos = match direction with
+        |(0, 0) -> current_position ++ (random_direction ())
+        |_ -> current_position ++ direction
+        in
+      let new_position = move current_position next_pos in
+      render ();
+      perform End_of_turn;
+      elephant new_position direction 10
+    )
+  |(0, 0), _ ->
+    (
+      render ();
+      perform End_of_turn;
+      elephant current_position charge (count-1)
+    )
+  |_, 0 -> 
+    (
+      let next_pos = current_position ++ charge in
+      let new_position = move current_position next_pos in ()
+    )
+  |_ ->
+    (
+
+    )
+  
+  |_ -> (
+    render ();
+    perform End_of_turn
+  )
