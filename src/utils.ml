@@ -6,6 +6,14 @@ open World
 let ( ++ ) (x, y : int * int) (dx, dy : int * int) : int * int = 
   (x + dx, y + dy)
 
+let random_direction () : int * int = 
+  match Random.int 4 with
+  | 0 -> (-1, 0)
+  | 1 -> (1, 0)
+  | 2 -> (0, -1)
+  | 3 -> (0, 1)
+  | _ -> (0, 0)
+
 (** [move old_pos new_pos] déplace le contenu de la case en [old_pos] vers la case [new_pos].
     Si la case [new_pos] est occupé, laisse le monde inchangé.
     Renvoie [new_pos] si le mouvement a eu lieu, et [old_pos] sinon.*)
