@@ -18,11 +18,11 @@ let move (old_position : int * int) (new_position : int * int) : int * int =
       new_position
   | _ -> old_position
 
-
+(** [correct_coordinates (x,y)] vérifie si la coordonnée [(x,y)] est correct *)
 let correct_coordinates (x, y) : bool =
   (0 <= x) && (x < width) && (0 <= y) && (y < height);;
 
-(* Renvoie une direction aléatoire *)
+(** [random_direction ()] renvoie une direction aléatoire *)
 let random_direction () : int * int =
   let random_dir = Random.int 4 in
   match random_dir with
