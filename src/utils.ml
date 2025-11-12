@@ -26,7 +26,7 @@ let random_direction () : int * int =
   let random_dir = Random.int 4 in
   match random_dir with
   | 0 -> (- 1, 0)
-  | 1 -> (- 1, 0)
+  | 1 -> (+ 1, 0)
   | 2 -> (0, + 1)
   | 3 -> (0, - 1)
   | _ -> (0, 0);;
