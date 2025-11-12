@@ -35,18 +35,11 @@ let () = set spider_initial_position Spider
 
 (* La file d'exécution *)
 let () =
-<<<<<<< HEAD
- Queue.add (fun () -> player (fun () -> camel camel_initial_position)) queue;
- Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue;
- Queue.add (fun () -> player (fun () -> elephant elephant_initial_position)) queue;
- Queue.add (fun () -> player (fun () -> spider spider_initial_position)) queue;;
-=======
   Queue.add (fun () -> player (fun () -> camel camel_initial_position)) queue;
   Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue;
   Queue.add (fun () -> player (fun () -> elephant elephant_initial_position)) queue;
   Queue.add (fun () -> player (fun () -> spider spider_initial_position)) queue;;
 
->>>>>>> Valentin
 
 (* Début du jeu *)
 let () = run_queue ()
