@@ -4,6 +4,7 @@ open Utils
 open Effect
 open Effect.Deep
 open Engine
+open World
 
 (** [keyboard_direction ()] attend un évènement dans le terminal.
     Si ECHAP est pressée, arrête le jeu.
@@ -20,9 +21,21 @@ let keyboard_direction () : int * int =
 
 (** [camel current_position] effectue tous les prochains tours du chameau à partir de la position
     [current_position] (attendre une entrée, se déplacer en conséquence, recommencer)*)
-let rec camel (current_position : int * int) : unit =
+let rec camel (current_position : int * int) (vision : int) : unit =
   let new_position = current_position ++ keyboard_direction () in
-  let new_position = move current_position new_position in
-  render ();
-  perform End_of_turn;
-  camel new_position
+  match get new_position with
+  |Cookie -> 
+    (
+      set new_position Empty;
+      let new_position = move current_position new_position in
+      render ();
+      perform End_of_turn;
+      camel new_position (vision+1)
+    )
+  | _ -> 
+    (
+      let new_position = move current_position new_position in
+      render ();
+      perform End_of_turn;
+      camel new_position vision
+    )

@@ -35,7 +35,7 @@ let () = set elephant_initial_position Elephant
 
 (* La file d'exécution *)
 let () =
- Queue.add (fun () -> player (fun () -> camel camel_initial_position)) queue;
+ Queue.add (fun () -> player (fun () -> camel camel_initial_position initial_vision)) queue;
  Queue.add (fun () -> player (fun () -> snake snake_initial_position)) queue;
  Queue.add (fun () -> player (fun () -> elephant elephant_initial_position)) queue;;
 
