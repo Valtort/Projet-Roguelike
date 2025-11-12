@@ -27,7 +27,7 @@ let dir_to_camel (x, y : int * int) : int * int =
   | Some dir -> dir  (* Retourne la direction du camel *)
   | None -> (0, 0)   (* Aucun camel visible *);;
 
-let cactus_before (x, y) (dx, dy) : bool =
+let cactus_front(x, y) (dx, dy) : bool =
   let cactus_cell = (x+dx, y+dy) in
   (correct_coordinates cactus_cell) && (is_cactus cactus_cell)
 
@@ -37,7 +37,7 @@ let rec elephant (current_position : int * int) : unit =
   if can_see then begin (* Si on peut voir le chameau *)
     let pos = ref current_position in
     for _=0 to 9 do (* Avancer 10 fois dans la direction du chameau *)
-      if cactus_before !pos dir then begin (* Si on voit un cactus, rester stun 20 tours*)
+      if cactus_front !pos dir then begin (* Si on voit un cactus, rester stun 20 tours*)
         for _=0 to 19 do
           render ();
           perform End_of_turn;
