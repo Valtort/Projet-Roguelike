@@ -34,6 +34,8 @@ let rec keyboard_direction () : int * int =
   | `Key (`ASCII 'O', _)    -> (6, 0)
   | `Key (`ASCII 'g', _)    -> (7, 0) (*7 correspond au chameau*)
   | `Key (`ASCII 'G', _)    -> (7, 0) (*g comme Goat*)
+  | `Key (`ASCII 'r', _)    -> (8, 0) (*8 correspond a remove*)
+  | `Key (`ASCII 'R', _)    -> (8, 0) 
   | `Key (`Enter , _)       -> (10, 0) (*Enter pour jouer un tour*)
   | _                       -> keyboard_direction () 
   (*Modification pour que le tour d'un joueur ne soit pas skip si on touche une mauvaise touche*)
@@ -50,6 +52,7 @@ let rec cross (current_position : int * int) ((last_seen) : cell ) : unit =
     (0, 1);
     (0, -1);
   ] in
+
   let dir = keyboard_direction () in 
   if (List.mem dir directions) then (
     (* Si on demande un mouvement de la croix *)
@@ -63,13 +66,14 @@ let rec cross (current_position : int * int) ((last_seen) : cell ) : unit =
     )
     else (
       let new_position = move_Cross current_position new_position in
-      set current_position last_seen; (* On affiche que lorsqu'on bouge*)
+      set current_position last_seen; (* On set que lorsqu'on bouge*)
       render ();
       perform Sandbox;
       cross new_position old_entity
     )
   )
   else (
+    (* On a choisi de faire une action autre que placer un élément *)
     begin 
       match dir with 
       | (2, _) -> 
@@ -89,8 +93,11 @@ let rec cross (current_position : int * int) ((last_seen) : cell ) : unit =
       | (7, _) -> 
         Queue.add (fun () -> player (fun () -> camel current_position)) queuePlayer;
         cross current_position Camel
+      | (8, _) -> 
+        cross current_position Empty
       | (10, _) -> 
-        run_one_step ()
+        run_one_step ();
+        cross current_position last_seen
 
       | _ -> failwith""
     end
