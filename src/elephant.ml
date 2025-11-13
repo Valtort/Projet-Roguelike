@@ -49,19 +49,19 @@ let rec elephant (current_position : int * int) : unit =
     for _=0 to 9 do (* Avancer 10 fois dans la direction du chameau *)
       if cactus_front !pos dir then begin (* Si on voit un cactus, rester stun 20 tours*)
         for _=0 to 19 do
-          perform End_of_turn;
+          perform (End_of_turn Elephant) ;
         done;
         elephant !pos;
         (* On arrête ici l'éxécution car les appels à elephant ne terminent jamais.
         Donc tout le code ci-dessous ne sera pas considéré si on appelle (elephant !pos)*)
       end;
       pos := move !pos (!pos ++ dir);
-      perform End_of_turn;
+      perform (End_of_turn Elephant);
     done;
     elephant !pos;
   end
   else begin (* Si on ne voit pas le chameau, bouger aléatoirement *)
     let new_position = move current_position (current_position ++ random_direction ()) in
-    perform End_of_turn;
+    perform (End_of_turn Elephant);
     elephant new_position;
   end;;

@@ -24,6 +24,6 @@ let rec keyboard_direction () : int * int =
 let rec camel (current_position : int * int) : unit =
   let new_position = current_position ++ keyboard_direction () in
   let new_position = move current_position new_position in
-  perform End_of_turn;
   render ();
+  perform (End_of_turn Camel);
   camel new_position

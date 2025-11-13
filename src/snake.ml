@@ -57,12 +57,11 @@ let rec snake (current_position : int * int) : unit =
       target := pred.(fst !target).(snd !target);
     done;
     let new_position = move current_position !target in
-    perform End_of_turn;
-    perform End_of_turn;
+    perform (End_of_turn Snake);
     snake new_position;
   end
   else begin
     let new_position = move current_position (current_position ++ random_direction ()) in
-    perform End_of_turn;
+    perform (End_of_turn Snake);
     snake new_position;
   end;
