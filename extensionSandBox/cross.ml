@@ -42,8 +42,8 @@ let rec keyboard_direction () : int * int =
   | `Key (`ASCII 'O', _)    -> (6, 0)
   | `Key (`ASCII 'g', _)    -> (7, 0) (*7 correspond au chameau*)
   | `Key (`ASCII 'G', _)    -> (7, 0) (*g comme Goat*)
-  | `Key (`ASCII 'r', _)    -> (8, 0) (*8 correspond a remove*)
-  | `Key (`ASCII 'R', _)    -> (8, 0) 
+  (* | `Key (`ASCII 'r', _)    -> (8, 0) (*8 correspond a remove*)
+  | `Key (`ASCII 'R', _)    -> (8, 0)  *)
   | `Key (`ASCII 'q', _)    -> (9, 0) (*9 correspond a quitter le mode sandbox pour jouer au jeu*)
   | `Key (`ASCII 'Q', _)    -> (9, 0) 
   | `Key (`Enter , _)       -> (10, 0) (*Enter pour jouer un tour*)
@@ -81,35 +81,40 @@ let rec cross (current_position : int * int) ((last_seen) : cell ) : unit =
   )
   else (
     (* On a choisi de faire une action autre que placer un élément *)
-    begin 
-      match dir with 
-      | (2, _) -> 
-        cross current_position Cactus
-      | (3, _) -> 
-        Queue.add (fun () -> player (fun () -> snake current_position)) queuePlayer;
-        cross current_position Snake
-      | (4, _) -> 
-        Queue.add (fun () -> player (fun () -> elephant current_position)) queuePlayer;
-        cross current_position Elephant
-      | (5, _) -> 
-        Queue.add (fun () -> player (fun () -> spider current_position)) queuePlayer;
-        cross current_position Spider
-      | (6, _) -> 
-        Queue.add (fun () -> player (fun () -> egg current_position)) queuePlayer;
-        cross current_position Egg
-      | (7, _) -> 
-        Queue.add (fun () -> player (fun () -> camel current_position)) queuePlayer;
-        cross current_position Camel
-      | (8, _) -> 
-        cross current_position Empty
-      | (9, _) -> 
-        set current_position Empty;
-        run_queue (queuePlayer)
-      | (10, _) -> 
-        run_one_step ();
-        cross current_position last_seen
+    if (last_seen = Empty) then (
+      begin 
+        match dir with 
+        | (2, _) -> 
+          cross current_position Cactus
+        | (3, _) -> 
+          Queue.add (fun () -> player (fun () -> snake current_position)) queuePlayer;
+          cross current_position Snake
+        | (4, _) -> 
+          Queue.add (fun () -> player (fun () -> elephant current_position)) queuePlayer;
+          cross current_position Elephant
+        | (5, _) -> 
+          Queue.add (fun () -> player (fun () -> spider current_position)) queuePlayer;
+          cross current_position Spider
+        | (6, _) -> 
+          Queue.add (fun () -> player (fun () -> egg current_position)) queuePlayer;
+          cross current_position Egg
+        | (7, _) -> 
+          Queue.add (fun () -> player (fun () -> camel current_position)) queuePlayer;
+          cross current_position Camel
+        (* | (8, _) -> 
+          cross current_position Empty *)
+        | (9, _) -> 
+          set current_position last_seen;
+          run_queue (queuePlayer)
+        | (10, _) -> 
+          run_one_step ();
+          cross current_position last_seen
 
-      | _ -> failwith"Ne dois pas arriver"
-    end
+        | _ -> failwith"Ne dois pas arriver"
+      end
+    )
+    else (
+      cross current_position last_seen
+    )
   )
   
