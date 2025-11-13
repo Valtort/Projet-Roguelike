@@ -8,11 +8,13 @@ open World
 
 let proba_pondre = 1 (* 1/ 100 *)
 
-let adjacent_empty_cells (current_position : int * int) =
+(** [adjacent_empty_cells (x,y)] renvoie un tableau de coordonnées accessibles et vides depuis [(x,y)]*)
+let adjacent_empty_cells (current_position : int * int) : (int * int) array =
   let shifts = [(1, 0); (0, -1); (-1, 0); (0, 1)] in
+  (* Fonction auxiliaire qui sélectionne les coordonnées possibles (cases vides et accessibles)*)
   let rec aux sh = match sh with
     |[] -> []
-    |dX::r -> if (correct_coordinates (current_position ++ dX)  && is_empty (current_position ++ dX))
+    |dX::r -> if (correct_coordinates (current_position ++ dX) && is_empty (current_position ++ dX))
                 then (current_position ++ dX)::(aux r)
               else
                 aux r
@@ -27,6 +29,7 @@ let rec spider (current_position : int * int) : unit =
   if r < proba_pondre then pond_oeuf new_position; (* pondre oeuf avec probabilité r/100 *)
   perform End_of_turn;
   spider new_position;
+(* [pond_oeuf] pond un oeuf sur la case pos et ajoute l'entitée egg à la file *)
 and pond_oeuf pos =
   let aec = adjacent_empty_cells pos in
   let n = Array.length aec in
@@ -37,6 +40,8 @@ and pond_oeuf pos =
     set egg_pos Egg;
     Queue.add (fun () -> player (fun () -> egg egg_pos)) queue;
   end;
+(* [egg current_position] effectue tous les prochains tours de l'oeuf à partir de la position
+    [current_position] et cause un appel à appear_spider tous les 20 tours*)
 and egg (current_position : int * int) : unit =
   for i=1 to 60 do
     if ((i mod 20) = 0) then appear_spider current_position; (* tous les 20 tours fair apparaitre une araignée *)
