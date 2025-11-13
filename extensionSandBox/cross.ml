@@ -10,111 +10,112 @@ open Elephant
 open Spider
 open Snake
 
+
+let current_position = ref (width/2, height/2)
+and last_seen = ref world.(width/2).(height/2)
+
 (** [move_Cross old_pos new_pos] déplace le contenu de la case en [old_pos] vers la case [new_pos].
     Peu importe qu'il y ai une entitée ou non, on vérifie dans la fonction [cross] du fichier cross.ml
     si la case est dans le plateau de jeu ou non*)
-let move_Cross (old_position : int * int) (new_position : int * int) : int * int =
-  let character = get old_position in
-  set old_position Empty ;
-  set new_position character ;
-  new_position
-
-(** [keyboard_direction ()] attend un évènement dans le terminal.
-    Si ECHAP est pressée, arrête le jeu.
-    Si une touche directionnelle est pressée, renvoie le changement à appliquer sur les coordonnées
-    du chameau pour aller dans la direction correspondante.*)
-let rec keyboard_direction () : int * int =
-  match Term.event terminal with
-  | `Key (`Escape,       _) -> exit 0   (* press <escape> to quit *)
-  | `Key (`Arrow `Left,  _) -> (- 1, 0)
-  | `Key (`Arrow `Right, _) -> (+ 1, 0)
-  | `Key (`Arrow `Down,  _) -> (0, + 1)
-  | `Key (`Arrow `Up,    _) -> (0, - 1)
-  | `Key (`ASCII 'c', _)    -> (2, 0) (*2 correspond au cactus*)
-  | `Key (`ASCII 'C', _)    -> (2, 0) 
-  | `Key (`ASCII 's', _)    -> (3, 0) (*3 correspond au serpent*)
-  | `Key (`ASCII 'S', _)    -> (3, 0) 
-  | `Key (`ASCII 'e', _)    -> (4, 0) (*4 correspond a l'éléphant*)
-  | `Key (`ASCII 'E', _)    -> (4, 0) 
-  | `Key (`ASCII 'a', _)    -> (5, 0) (*5 correspond a l'araignée*)
-  | `Key (`ASCII 'A', _)    -> (5, 0)
-  | `Key (`ASCII 'o', _)    -> (6, 0) (*6 correspond a l'oeuf*)
-  | `Key (`ASCII 'O', _)    -> (6, 0)
-  | `Key (`ASCII 'g', _)    -> (7, 0) (*7 correspond au chameau*)
-  | `Key (`ASCII 'G', _)    -> (7, 0) (*g comme Goat*)
-  (* | `Key (`ASCII 'r', _)    -> (8, 0) (*8 correspond a remove*)
-  | `Key (`ASCII 'R', _)    -> (8, 0)  *)
-  | `Key (`ASCII 'q', _)    -> (9, 0) (*9 correspond a quitter le mode sandbox pour jouer au jeu*)
-  | `Key (`ASCII 'Q', _)    -> (9, 0) 
-  | `Key (`Enter , _)       -> (10, 0) (*Enter pour jouer un tour*)
-  | _                       -> keyboard_direction () 
+let move_cross (new_position : int * int) : unit =
+  let tmp = get new_position in
+  set !current_position !last_seen ;
+  set new_position Cross;
+  current_position := new_position;
+  last_seen := tmp;;
   (*Modification pour que le tour d'un joueur ne soit pas skip si on touche une mauvaise touche*)
 
 (** [cross current_position (last_seen,coord)] effectue tous les prochains tours de la croix à partir de la position
-    [current_position] 
+    [current_position]
     (attendre une entrée, se déplacer en conséquence/placer une entitées/jouer un tour, recommencer)
-    [last_seen] permet de se souvenir de la dernière entitée que l'on a vue à la coordonnée [coord], 
+    [last_seen] permet de se souvenir de la dernière entitée que l'on a vue à la coordonnée [coord],
     car quand la croix passe par dessus une entitée, elle est temporairement écrasé par la croix*)
-let rec cross (current_position : int * int) ((last_seen) : cell ) : unit =
-  let directions = [
-    (1, 0);
-    (-1, 0);
-    (0, 1);
-    (0, -1);
-  ] in
 
-  let dir = keyboard_direction () in 
-  if (List.mem dir directions) then (
-    (* Si on demande un mouvement de la croix *)
-    let new_position = current_position ++ dir in
-    if (correct_coordinates new_position) then (
-      let old_entity = get new_position in
-      let new_position = move_Cross current_position new_position in
-      set current_position last_seen; (* On set que lorsqu'on bouge*)
-      render ();
-      perform Sandbox;
-      cross new_position old_entity
-    )
-    else (
-      cross current_position last_seen
-    )
-  )
-  else (
-    (* On a choisi de faire une action autre que placer un élément *)
-    if (last_seen = Empty) then (
-      begin 
-        match dir with 
-        | (2, _) -> 
-          cross current_position Cactus
-        | (3, _) -> 
-          Queue.add (fun () -> player (fun () -> snake current_position)) queuePlayer;
-          cross current_position Snake
-        | (4, _) -> 
-          Queue.add (fun () -> player (fun () -> elephant current_position)) queuePlayer;
-          cross current_position Elephant
-        | (5, _) -> 
-          Queue.add (fun () -> player (fun () -> spider current_position)) queuePlayer;
-          cross current_position Spider
-        | (6, _) -> 
-          Queue.add (fun () -> player (fun () -> egg current_position)) queuePlayer;
-          cross current_position Egg
-        | (7, _) -> 
-          Queue.add (fun () -> player (fun () -> camel current_position)) queuePlayer;
-          cross current_position Camel
-        (* | (8, _) -> 
-          cross current_position Empty *)
-        | (9, _) -> 
-          set current_position last_seen;
-          run_queue (queuePlayer)
-        | (10, _) -> 
-          run_one_step ();
-          cross current_position last_seen
 
-        | _ -> failwith"Ne dois pas arriver"
-      end
-    )
-    else (
-      cross current_position last_seen
-    )
-  )
-  
+let rec cross_write_mode () =
+  let pos = !current_position in
+  match Term.event terminal with
+    | `Key (`Escape,       _) -> exit 0   (* press <escape> to quit *)
+    | `Key (`Arrow `Left,  _) ->
+      let new_position = !current_position ++ (-1, 0) in
+      if (correct_coordinates new_position) then begin
+        move_cross new_position;
+        render ();
+      end;
+      cross ()
+
+    | `Key (`Arrow `Right, _) ->
+      let new_position = !current_position ++ (+1, 0) in
+      if (correct_coordinates new_position) then begin
+        move_cross new_position;
+        render ();
+      end;
+      cross ()
+    | `Key (`Arrow `Down,  _) ->
+      let new_position = !current_position ++ (0, +1) in
+      if (correct_coordinates new_position) then begin
+        move_cross new_position;
+        render ();
+      end;
+      cross ()
+    | `Key (`Arrow `Up,    _) ->
+      let new_position = !current_position ++ (0, -1) in
+      if (correct_coordinates new_position) then begin
+        move_cross new_position;
+        render ();
+      end;
+      cross ()
+    | `Key (`ASCII 'c', _)  when !last_seen = Empty ->
+      last_seen := Cactus;
+      cross ()
+    | `Key (`ASCII 's', _) when !last_seen = Empty   ->
+      Queue.add ((fun () -> player (fun () -> snake pos)), Snake) queuePlayer;
+      last_seen := Snake;
+      cross ()
+    | `Key (`ASCII 'e', _)  when !last_seen = Empty  ->
+      Queue.add ((fun () -> player (fun () -> elephant pos)), Elephant) queuePlayer;
+      last_seen := Elephant;
+      cross ()
+    | `Key (`ASCII 'a', _)  when !last_seen = Empty  ->
+      Queue.add ((fun () -> player (fun () -> spider pos)), Spider) queuePlayer;
+      last_seen := Spider;
+      cross ();
+    | `Key (`ASCII 'o', _)  when !last_seen = Empty  ->
+        Queue.add ((fun () -> player (fun () -> egg pos)), Egg) queuePlayer;
+        last_seen := Egg;
+        cross ()
+    | `Key (`ASCII 'g', _)  when !last_seen = Empty  ->
+        Queue.add ((fun () -> player (fun () -> camel pos)), Camel) queuePlayer;
+        last_seen := Camel;
+        cross ()
+    | `Key (`ASCII 'q', _)  when !last_seen = Empty  ->
+      set !current_position !last_seen;
+      sandbox_mode := Exec;
+      run_queue queuePlayer;
+    | `Key (`Tab , _)       ->
+      set !current_position !last_seen;
+      sandbox_mode := Exec;
+      cross ()
+    | _                       -> cross_write_mode ()
+and cross_exec_mode () =
+  match Term.event terminal with
+  | `Key (`Escape,       _)  -> exit 0   (* press <escape> to quit *)
+  | `Key (`Enter,  _) ->
+    run_one_step ();
+    render ();
+    cross ()
+  | `Key (`Tab , _)          ->
+    sandbox_mode := Write;
+    last_seen := get !current_position;
+    set !current_position Cross;
+    cross()
+  | _                        -> cross_exec_mode ()
+and cross () : unit =
+  if !sandbox_mode = Write then begin
+    render();
+    cross_write_mode () ;
+  end
+  else begin
+    render();
+    cross_exec_mode ();
+  end;

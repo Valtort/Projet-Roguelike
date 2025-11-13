@@ -36,5 +36,5 @@ let random_direction () : int * int =
   | _ -> (0, 0);;
 
 let is_cactus (x, y) = (world.(x).(y) = Cactus);;
-let is_camel(x, y) = (world.(x).(y) = Camel);;
-let is_empty(x, y) = (world.(x).(y) = Empty);;
+let is_camel (x, y) = (world.(x).(y) = Camel);;
+let is_empty (x, y) = (world.(x).(y) = Empty);;
