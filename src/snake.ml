@@ -20,15 +20,17 @@ let adjacent_empty_or_camel_cells (current_position : int * int) : (int * int) a
 
 
 (** [snake current_position] effectue tous les prochains tours du serpent à partir de la position
-    [current_position] (se déplacer aléatoirement, recommencer)*)
+    [current_position] (essaie de suivre le chameau en utilisant Dijjkstra)*)
 let rec snake (current_position : int * int) : unit =
   let deja_traite = Array.make_matrix width height false
-  and pred = Array.make_matrix width height (0, 0)
-  and dist = Array.make_matrix width height max_int;
+  and pred = Array.make_matrix width height (0, 0) (* predecesseur du plus court chemin de current_position à x y *)
+  and dist = Array.make_matrix width height max_int; (* distance du plus court chemin de current_position à x y *)
   and camel_found = ref false
-  and target = ref (0, 0)
-  and q = Queue.create () in
+  and target = ref (0, 0) (* sert à stocker ou est le chameau une fois dijsktra fini *)
+  and q = Queue.create () in (* file pour dijkstra (ici pas besoin de file de file de prio (expliqué dans le rapport)) *)
   Queue.add current_position q;
+
+  (* Boucle principale de Dijkstra*)
   while (not !camel_found) && not (Queue.is_empty q) do
     let s =Queue.pop q in
     let (x_s, y_s) = s in
@@ -48,16 +50,19 @@ let rec snake (current_position : int * int) : unit =
     end;
     if is_camel s then ( camel_found := true; target := s )
   done;
+
+  (* Si on a trouvé la chameau on veut connaitre la case voisine à *)
   if (!camel_found) then begin
     while (pred.(fst !target).(snd !target) != current_position) do
       target := pred.(fst !target).(snd !target);
     done;
     let new_position = move current_position !target in
     perform End_of_turn;
-    snake new_position;
     perform End_of_turn;
+    snake new_position;
   end
   else begin
+    let new_position = move current_position (current_position ++ random_direction ()) in
     perform End_of_turn;
-    snake current_position;
+    snake new_position;
   end;
