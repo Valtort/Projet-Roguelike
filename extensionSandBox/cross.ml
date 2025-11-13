@@ -25,16 +25,14 @@ let move_cross (new_position : int * int) : unit =
   last_seen := tmp;;
   (*Modification pour que le tour d'un joueur ne soit pas skip si on touche une mauvaise touche*)
 
-(** [cross current_position (last_seen,coord)] effectue tous les prochains tours de la croix à partir de la position
-    [current_position]
-    (attendre une entrée, se déplacer en conséquence/placer une entitées/jouer un tour, recommencer)
-    [last_seen] permet de se souvenir de la dernière entitée que l'on a vue à la coordonnée [coord],
-    car quand la croix passe par dessus une entitée, elle est temporairement écrasé par la croix*)
-
-
+(** [cross_write_mode ()] permet de déplacer la croix et de placer des entitées
+    [last_seen] permet de se souvenir de la dernière entitée que l'on a vue,
+    car quand la croix passe par dessus une entitée, 
+    cette entitée est temporairement écrasé par la croix*)
 let rec cross_write_mode () =
   let pos = !current_position in
   match Term.event terminal with
+  (* Cas où on veut quitter/ déplacer la croix *)
     | `Key (`Escape,       _) -> exit 0   (* press <escape> to quit *)
     | `Key (`Arrow `Left,  _) ->
       let new_position = !current_position ++ (-1, 0) in
@@ -65,6 +63,8 @@ let rec cross_write_mode () =
         render ();
       end;
       cross ()
+
+    (* Cas où on veut placer une entitée *)
     | `Key (`ASCII 'c', _)  when !last_seen = Empty ->
       last_seen := Cactus;
       cross ()
@@ -88,15 +88,22 @@ let rec cross_write_mode () =
         Queue.add ((fun () -> player (fun () -> camel pos)), Camel) queuePlayer;
         last_seen := Camel;
         cross ()
+    (* On quitte le cross mode et on y revient JAMAIS, permet de jouer sur le terrain crée *)
     | `Key (`ASCII 'q', _)  when !last_seen = Empty  ->
       set !current_position !last_seen;
       sandbox_mode := Exec;
       run_queue queuePlayer;
+
+    (* On quitte le cross mode mais on peut y revenir, permet de jouer sur le terrain crée 
+    puis de le modifier *)
     | `Key (`Tab , _)       ->
       set !current_position !last_seen;
       sandbox_mode := Exec;
       cross ()
     | _                       -> cross_write_mode ()
+
+(** [cross_exec_mode ()] permet de faire disparaitre la croix et de jouer au jeu étapes par étapes,
+on contrôle chaques avancé dans la queue en appuyant sur Enter*)
 and cross_exec_mode () =
   match Term.event terminal with
   | `Key (`Escape,       _)  -> exit 0   (* press <escape> to quit *)
@@ -104,12 +111,15 @@ and cross_exec_mode () =
     run_one_step ();
     render ();
     cross ()
+    (* On retourne dans le write mode *)
   | `Key (`Tab , _)          ->
     sandbox_mode := Write;
     last_seen := get !current_position;
     set !current_position Cross;
     cross()
   | _                        -> cross_exec_mode ()
+
+(** [cross ()] permet de jouer au jeu en mode sandbox et de jouer soit au write mode ou exec mode *)
 and cross () : unit =
   if !sandbox_mode = Write then begin
     render();
