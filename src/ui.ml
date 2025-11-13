@@ -20,15 +20,21 @@ let string_of_cell : cell -> string = function
 *)
 
 (** Fonctions de création de l'image correspondant à l'état actuel du monde.*)
-let draw_cell (c : cell) : image = I.string A.empty (string_of_cell c)
+let draw_cell (c : cell) : image = I.string A.empty (string_of_cell c);;
+
+let vertical_bar : image = I.string A.empty "│";;
+let horizontal_bar : image = I.string A.empty "─";;
+let big_horizontal_bar : image = I.vcat @@ List.init (height + 2) (fun _ -> vertical_bar);;
+
 
 let draw_world () : image =
   I.hcat
-  @@ Array.to_list
+  @@
+  big_horizontal_bar::(
+  Array.to_list
   @@ Array.map
-       (fun column -> I.vcat @@ Array.to_list @@ Array.map draw_cell column)
-       world
-
+       (fun column -> I.vcat @@ horizontal_bar::(Array.to_list @@ Array.map draw_cell column)@[horizontal_bar])
+       world)@[big_horizontal_bar]
 
 open Notty_unix
 
