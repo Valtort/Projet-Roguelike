@@ -10,6 +10,14 @@ open Elephant
 open Spider
 open Snake
 
+(** [move_Cross old_pos new_pos] déplace le contenu de la case en [old_pos] vers la case [new_pos].
+    Peu importe qu'il y ai une entitée ou non, on vérifie dans la fonction [cross] du fichier cross.ml
+    si la case est dans le plateau de jeu ou non*)
+let move_Cross (old_position : int * int) (new_position : int * int) : int * int =
+  let character = get old_position in
+  set old_position Empty ;
+  set new_position character ;
+  new_position
 
 (** [keyboard_direction ()] attend un évènement dans le terminal.
     Si ECHAP est pressée, arrête le jeu.
