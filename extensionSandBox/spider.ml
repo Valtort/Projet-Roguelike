@@ -39,7 +39,7 @@ and pond_oeuf pos =
     (* Placer un oeuf aléatoirement sur une des cases voisine et ajouter l'oeuf à la queue*)
     let egg_pos = aec.(k) in
     set egg_pos Egg;
-    Queue.add (fun () -> player (fun () -> egg egg_pos)) queue;
+    Queue.add (fun () -> player (fun () -> egg egg_pos)) queuePlayer;
   end;
 (* [egg current_position] effectue tous les prochains tours de l'oeuf à partir de la position
     [current_position] et cause un appel à appear_spider tous les 20 tours*)
@@ -61,5 +61,5 @@ and appear_spider egg_pos =
     let k = Random.int n in
     let spider_pos = aec.(k) in
     set spider_pos Spider;
-    Queue.add (fun () -> player (fun () -> spider spider_pos)) queue
+    Queue.add (fun () -> player (fun () -> spider spider_pos)) queuePlayer
   end;

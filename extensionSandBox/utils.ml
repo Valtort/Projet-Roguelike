@@ -6,6 +6,13 @@ open World
 let ( ++ ) (x, y : int * int) (dx, dy : int * int) : int * int =
   (x + dx, y + dy)
 
+
+(** [correct_coordinates coord] renvoi [true] si les coordonnées [(x,y)] sont
+valides, et [false] sinon *)
+let correct_coordinates ((x, y): int * int) : bool =
+  (0 <= x) && (x < width) && (0 <= y) && (y < height);;
+
+
 (** [move old_pos new_pos] déplace le contenu de la case en [old_pos] vers la case [new_pos].
     Si la case [new_pos] est occupé, laisse le monde inchangé.
     Renvoie [new_pos] si le mouvement a eu lieu, et [old_pos] sinon.*)
@@ -18,10 +25,15 @@ let move (old_position : int * int) (new_position : int * int) : int * int =
       new_position
   | _ -> old_position
 
-(** [correct_coordinates coord] renvoi [true] si les coordonnées [(x,y)] sont
-valides, et [false] sinon *)
-let correct_coordinates ((x, y): int * int) : bool =
-  (0 <= x) && (x < width) && (0 <= y) && (y < height);;
+(** [move_Cross old_pos new_pos] déplace le contenu de la case en [old_pos] vers la case [new_pos].
+    Peu importe qu'il y ai une entitée ou non, on vérifie dans la fonction [cross] du fichier cross.ml
+    si la case est dans le plateau de jeu ou non*)
+let move_Cross (old_position : int * int) (new_position : int * int) : int * int =
+  let character = get old_position in
+  set old_position Empty ;
+  set new_position character ;
+  new_position
+
 
 (** [random_direction ()] renvoie une direction aléatoire *)
 let random_direction () : int * int =

@@ -10,12 +10,16 @@ let string_of_cell : cell -> string = function
   | Elephant   -> "\u{1F418}"
   | Spider     -> "\u{1F577}"
   | Egg        -> "\u{1F95A}"
+  | Cross      -> "\u{274C}"
+  | Outofindex -> "\u{274C}" (* On met une croix parce que le seul cas où ça arrive, 
+  c'est lorsqu'on utilise la croix *)
 
 (* Codes des emojis pour les animaux pertinents
    serpent : "\u{1F40D}"
    éléphant : s"\u{1F418}"
    araignée : "\u{1F577} "
    oeuf : "\u{1F95A}"
+   croix :  "\u{274C}" 
    Des sites comme l'emojipedia peuvent vous donner plus de codes.
 *)
 
