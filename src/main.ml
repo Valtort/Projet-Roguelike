@@ -20,8 +20,12 @@ let random_position () : int * int = (Random.int width, Random.int height)
 let () =
   for _ = 0 to 200 do set (random_position ()) Cactus   done
 
+let () =
+  for _ = 1 to nb_cookies do set (random_position ()) Cookie done
+
 let camel_initial_position = random_position ();;
 let () = set camel_initial_position Camel;;
+let () = register_camel camel_initial_position initial_vision;;
 
 let snake_initial_position = random_position ()
 let () = set snake_initial_position Snake
@@ -35,7 +39,7 @@ let () = set spider_initial_position Spider
 
 (* La file d'exécution *)
 let () =
-  Queue.add ((fun () -> player (fun () -> camel camel_initial_position)), Camel) queue;
+  Queue.add ((fun () -> player (fun () -> camel camel_initial_position initial_vision)), Camel) queue;
   Queue.add ((fun () -> player (fun () -> snake snake_initial_position)), Snake) queue;
   Queue.add ((fun () -> player (fun () -> elephant elephant_initial_position)), Elephant) queue;
   Queue.add ((fun () -> player (fun () -> spider spider_initial_position)), Spider) queue;;

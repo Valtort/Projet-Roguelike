@@ -85,7 +85,7 @@ let rec cross_write_mode () =
         last_seen := Egg;
         cross ()
     | `Key (`ASCII 'g', _)  when !last_seen = Empty  ->
-        Queue.add ((fun () -> player (fun () -> camel pos)), Camel) queue;
+        Queue.add ((fun () -> player (fun () -> camel pos initial_vision)), Camel) queue;
         last_seen := Camel;
         cross ()
     (* On quitte le cross mode et on y revient JAMAIS, permet de jouer sur le terrain crée *)

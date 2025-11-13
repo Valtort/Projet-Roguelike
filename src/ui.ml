@@ -11,15 +11,26 @@ let string_of_cell : cell -> string = function
   | Spider     -> "\u{1F577}"
   | Egg        -> "\u{1F95A}"
   | Cross      -> "\u{274C}"
+  | Cookie   -> "\u{1F36A}"
 
 (* Codes des emojis pour les animaux pertinents
    serpent : "\u{1F40D}"
-   éléphant : s"\u{1F418}"
+   éléphant : "\u{1F418}"
    araignée : "\u{1F577} "
    oeuf : "\u{1F95A}"
    croix :  "\u{274C}"
+   cookie : "\u{1F36A}"
    Des sites comme l'emojipedia peuvent vous donner plus de codes.
 *)
+
+(** Vérifie si une case (x, y) est actuellement visible depuis au moins un camel *)
+let is_currently_visible (x : int) (y : int) : bool =
+  let camels = get_camels_info () in
+  List.exists (fun camel ->
+    let (cx, cy) = camel.position in
+    let vision_range = increase_vision * camel.vision in
+    abs (x - cx) <= vision_range && abs (y - cy) <= vision_range
+  ) camels
 
 (** Fonctions de création de l'image correspondant à l'état actuel du monde.*)
 let draw_cell (c : cell) : image = I.string A.empty (string_of_cell c);;
@@ -28,15 +39,40 @@ let vertical_bar : image = I.string A.empty "│";;
 let horizontal_bar : image = I.string A.empty "─";;
 let big_horizontal_bar : image = I.vcat @@ List.init (height + 2) (fun _ -> vertical_bar);;
 
+let draw_coord (x , y : int*int) : image =
+  if not use_vision then
+    (* Mode sans vision : afficher tout le monde *)
+    draw_cell world.(x).(y)
+  else if is_currently_visible x y then
+    (* Case actuellement visible : afficher ce qui est vraiment là *)
+    draw_cell world.(x).(y)
+  else
+    (* Case hors de vue : afficher ce qui a été vu (fog of war) *)
+    let seen_cell = get_seen (x, y) in
+    match seen_cell with
+    | Cactus ->
+        (* Seuls les cactus (éléments statiques) sont affichés en fog of war *)
+        I.string A.(fg lightblack) (string_of_cell seen_cell)
+    | _ ->
+        (* Les animaux et cookies (éléments mobiles) ne sont pas affichés hors de la vision *)
+        I.string A.empty "  "
 
 let draw_world () : image =
   I.hcat
   @@
-  big_horizontal_bar::(
-  Array.to_list
-  @@ Array.map
-       (fun column -> I.vcat @@ horizontal_bar::(Array.to_list @@ Array.map draw_cell column)@[horizontal_bar])
-       world)@[big_horizontal_bar]
+  big_horizontal_bar
+  :: (Array.to_list
+      @@ Array.mapi
+           (fun x column ->
+             I.vcat
+             @@ horizontal_bar
+             :: (Array.to_list
+                 @@ Array.mapi
+                      (fun y _cell -> draw_coord (x, y))
+                      column)
+             @ [ horizontal_bar ])
+           world)
+  @ [ big_horizontal_bar ]
 
 let queue_nth q n =
   if n < 0 || n >= Queue.length q then invalid_arg "queue_nth";
