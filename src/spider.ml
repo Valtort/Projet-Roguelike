@@ -25,7 +25,6 @@ let rec spider (current_position : int * int) : unit =
   let new_position = move current_position new_position in (* Déplacer l'araigné *)
   let r = Random.int 100 in
   if r < proba_pondre then pond_oeuf new_position; (* pondre oeuf avec probabilité r/100 *)
-  render ();
   perform End_of_turn;
   spider new_position;
 and pond_oeuf pos =
@@ -41,11 +40,10 @@ and pond_oeuf pos =
 and egg (current_position : int * int) : unit =
   for i=1 to 60 do
     if ((i mod 20) = 0) then appear_spider current_position; (* tous les 20 tours fair apparaitre une araignée *)
-    render ();
     perform End_of_turn;
   done;
   set current_position Empty;
-and appear_spider egg_pos =
+and appear_spider (egg_pos : int * int) =
   let aec = adjacent_empty_cells egg_pos in
   let n =  Array.length aec in
   if n > 0 then begin

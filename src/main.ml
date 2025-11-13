@@ -42,4 +42,6 @@ let () =
  Queue.add (fun () -> player (fun () -> spider spider_initial_position)) queue;;
 
 (* Début du jeu *)
-let () = run_queue ()
+let () =
+  render ();
+  run_queue ()
