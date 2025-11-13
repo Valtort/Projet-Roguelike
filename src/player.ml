@@ -20,14 +20,18 @@ let keyboard_direction () : int * int =
   | _                       -> (0, 0)
 
 (** [camel current_position] effectue tous les prochains tours du chameau à partir de la position
-    [current_position] (attendre une entrée, se déplacer en conséquence, recommencer)*)
+    [current_position] (attendre une entrée, se déplacer en conséquence, recommencer)
+    [vision] (donne la largeur du champ de vision du camel)*)
 let rec camel (current_position : int * int) (vision : int) : unit =
+  (* Enregistrer la position et vision du camel *)
+  register_camel current_position vision;
   let new_position = current_position ++ keyboard_direction () in
   match get new_position with
   |Cookie -> 
     (
       set new_position Empty;
       let new_position = move current_position new_position in
+      register_camel new_position (vision + 1);
       render ();
       perform End_of_turn;
       camel new_position (vision+1)
@@ -35,6 +39,7 @@ let rec camel (current_position : int * int) (vision : int) : unit =
   | _ -> 
     (
       let new_position = move current_position new_position in
+      register_camel new_position vision;
       render ();
       perform End_of_turn;
       camel new_position vision
