@@ -16,7 +16,7 @@ let rec keyboard_direction () : int * int =
   | `Key (`Arrow `Right, _) -> (+ 1, 0)
   | `Key (`Arrow `Down,  _) -> (0, + 1)
   | `Key (`Arrow `Up,    _) -> (0, - 1)
-  | _                       -> keyboard_direction () 
+  | _                       -> keyboard_direction ()
   (*Modification pour que le tour d'un joueur ne soit pas skip si on touche une mauvaise touche*)
 
 (** [camel current_position] effectue tous les prochains tours du chameau à partir de la position
@@ -24,6 +24,6 @@ let rec keyboard_direction () : int * int =
 let rec camel (current_position : int * int) : unit =
   let new_position = current_position ++ keyboard_direction () in
   let new_position = move current_position new_position in
-  render ();
   perform End_of_turn;
+  render ();
   camel new_position
