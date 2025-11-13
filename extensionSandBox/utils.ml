@@ -35,6 +35,7 @@ let move_Cross (old_position : int * int) (new_position : int * int) : int * int
   new_position
 
 
+
 (** [random_direction ()] renvoie une direction aléatoire *)
 let random_direction () : int * int =
   let random_dir = Random.int 4 in
