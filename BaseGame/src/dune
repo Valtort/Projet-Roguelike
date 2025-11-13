@@ -1,0 +1,14 @@
+(library
+  (name roguelib)
+  (modules spider snake elephant player engine ui utils world)
+  (libraries notty.unix))
+  
+(executable
+ (public_name rogue)
+ (name main)
+ (modules main)
+ (libraries notty.unix roguelib))
+
+(env
+  (dev
+    (flags (:standard -w -32 -w -33 -w -34 -w -37 -w -38))))
