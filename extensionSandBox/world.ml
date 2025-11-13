@@ -10,7 +10,6 @@ let sandbox_mode = ref Write;;
 (** Le monde [world] est un tableau mutable. *)
 let world : cell array array = Array.make_matrix width height Empty
 
-
 (** [get (x,y)] renvoie le contenu de la case en position [x,y] du monde.
     Renvoie un cactus pour toutes les cases hors du monde.*)
 let get (x, y : int * int) : cell = try world.(x).(y) with _ -> Cactus

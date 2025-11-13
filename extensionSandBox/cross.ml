@@ -104,6 +104,10 @@ and cross_exec_mode () =
     run_one_step ();
     render ();
     cross ()
+  | `Key (`ASCII 'q', _) ->
+    set !current_position !last_seen;
+    sandbox_mode := Exec;
+    run_queue queuePlayer;
   | `Key (`Tab , _)          ->
     sandbox_mode := Write;
     last_seen := get !current_position;
