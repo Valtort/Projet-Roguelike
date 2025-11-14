@@ -51,13 +51,15 @@ let rec snake (current_position : int * int) : unit =
     if is_camel s then ( camel_found := true; target := s )
   done;
 
-  (* Si on a trouvé la chameau on veut connaitre la case voisine à *)
+  (* Si on a trouvé un chameau on veut connaitre la case voisine au serpent sur laquelle
+    il faut aller pour atteindre le chameau *)
   if (!camel_found) then begin
     while (pred.(fst !target).(snd !target) != current_position) do
       target := pred.(fst !target).(snd !target);
     done;
     let new_position = move current_position !target in
     perform (End_of_turn Snake);
+    (* On attend un tour avant de rejouer sinon le serpent harcèle le Camel *)
     perform (End_of_turn Snake);
     snake new_position;
   end

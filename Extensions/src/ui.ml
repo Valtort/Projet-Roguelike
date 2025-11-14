@@ -58,6 +58,7 @@ let draw_coord (x , y : int*int) : image =
         (* Les animaux et cookies (éléments mobiles) ne sont pas affichés hors de la vision *)
         I.string A.empty "  "
 
+(** Merci ChatGPT *)
 let draw_world () : image =
   I.hcat
   @@
