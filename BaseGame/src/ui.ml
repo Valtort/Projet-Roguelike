@@ -37,4 +37,5 @@ let terminal : Term.t = Term.create ()
 
 (** [render ()] met à jour l'affichage courant dans le terminal*)
 let render () : unit = Term.image terminal (draw_world ())
+
 let () = render ()
