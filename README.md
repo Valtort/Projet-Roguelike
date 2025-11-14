@@ -92,7 +92,7 @@ De plus, si un chameau est accessible, le serpent ne se déplace qu’un tour su
 
     - Les chamaux peuvent manger les cookies en se déplaçant dessus.
 
-    - Seuls les chamaux peuvent manger les cookies et se déplacer sur les cases contenant les cookies.
+    - Seuls les chameaux peuvent manger les cookies et se déplacer sur les cases contenant les cookies.
 
     - Chaque cookie augmente le champ de vision de `increase_vision` (ici 2).
 
