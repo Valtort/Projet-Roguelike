@@ -39,8 +39,6 @@ let camels_info : camel_info list ref = ref []
 
 (** [register_camel pos vis] enregistre ou met à jour un camel à la position [pos] avec vision [vis] *)
 let register_camel (pos : int * int) (vis : int) : unit =
-  (* On efface toute la liste et on ne garde que le camel actuel *)
-  (* (il n'y a qu'un seul camel dans le jeu) *)
   if get pos = Camel || get pos = Cross then
     camels_info := [{ position = pos; vision = vis }]
   else
