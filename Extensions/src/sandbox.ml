@@ -119,6 +119,7 @@ and sandbox_exec_mode () =
   | `Key (`ASCII 'q', _) ->
     set !current_position !last_seen;
     game_mode := Play;
+    render ();
     run_queue ();
   | `Key (`Tab , _)          ->
     game_mode := SandboxWrite;
