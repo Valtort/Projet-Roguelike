@@ -10,7 +10,7 @@ let fp_vide () = ref [];;
 (** [fp_is_empty fp] test si une file de priorité fp est vide *)
 let fp_is_empty (fp: file_prio) = !fp = [];;
 
-(** [enfile ele prio] enfile ele dans la file de priorité fp avec la priorité prio *)
+(** [enfile ele prio fp] enfile ele dans la file de priorité fp avec la priorité prio *)
 let enfile (ele: (int*int)) (prio: int) (fp: file_prio)=
   let rec aux (li: ((int*int) * int) list) = match li with
     |[]                             -> [(ele, prio)]

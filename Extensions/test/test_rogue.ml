@@ -4,6 +4,7 @@ open Utils
 open Elephant
 open Spider
 open Sandbox
+open Astar
 
 (** [reset_world ()] reinitialse le monde *)
 let reset_world () : unit =
@@ -91,6 +92,11 @@ let _: cell array array =
 (*----- Test pour le fichier sandbox.ml------*)
 (*-------------------------------------------*)
 (*               Extension 3                 *)
+
+(*-------------------------------------------*)
+(*----- Test pour le fichier sandbox.ml------*)
+(*-------------------------------------------*)
+(*               Extension 3                 *)
 let test_sandbox () =
   reset_world ();
   current_position := (0,0);
@@ -137,6 +143,20 @@ let test_ext2 () =
   update_seen_map ();;
 
 
+(*---------------------------------*)
+(*----- Test file de priorité -----*)
+(*---------------------------------*)
+
+let test_file_prio () =
+  let fp = fp_vide () in
+  enfile (1, 0) 10 fp;
+  enfile (2, 0) 3 fp;
+  enfile (3, 0) 5 fp;
+  assert (defile fp = ((2,0), 3));
+  assert (defile fp = ((3,0), 5));
+  assert (defile fp = ((1,0), 10));;
+
+
 let () =
   test_world();
   print_string"Test world : réussi !\n";
@@ -150,4 +170,6 @@ let () =
   print_string"Test sandbox (extension 3) : réussi !\n";
   test_ext2();
   print_string"Test extension 2 : réussi !\n";
+  test_file_prio ();
+  print_string"Test file prio : réussi !\n";
   print_string"Tous les tests ont réussis !\n";;
