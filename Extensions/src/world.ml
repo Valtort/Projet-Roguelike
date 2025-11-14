@@ -4,8 +4,8 @@ type mode = SandboxWrite | SandboxExec | Play
 
 let width, height = 50, 30
 let nb_cookies = 10
-let initial_vision = 3
-let increase_vision = 2  (* Facteur multiplicateur pour le champ de vision *)
+let initial_vision = 6
+let increase_vision = 2  (* Facteur additif pour le champ de vision *)
 let use_vision = ref true  (* Si true, utilise le champ de vision ; si false, affiche tout *)
 
 let queue : ((unit -> unit) * cell) Queue.t = Queue.create ();;
@@ -53,7 +53,7 @@ let update_seen_map () : unit =
   let camels = !camels_info in
   List.iter (fun camel ->
     let (cx, cy) = camel.position in
-    let vision_range = increase_vision * camel.vision in
+    let vision_range = camel.vision in
     for x = 0 to width - 1 do
       for y = 0 to height - 1 do
         if abs (x - cx) <= vision_range && abs (y - cy) <= vision_range then

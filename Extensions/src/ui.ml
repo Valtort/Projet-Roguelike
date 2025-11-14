@@ -28,7 +28,7 @@ let is_currently_visible (x : int) (y : int) : bool =
   let camels = get_camels_info () in
   List.exists (fun camel ->
     let (cx, cy) = camel.position in
-    let vision_range = increase_vision * camel.vision in
+    let vision_range = camel.vision in
     (x - cx)*(x - cx) + (y - cy)*(y - cy) <= vision_range*vision_range
   ) camels
 
