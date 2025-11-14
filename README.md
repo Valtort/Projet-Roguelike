@@ -21,7 +21,7 @@ Nous nous sommes permis de modifier le code de base en enlevant le fait de ```re
 Il faut d'abord se placer dans le fichier BaseGame/ puis  compiler avec dune
 
 ```bash
-make run_basic
+make run_basegame
 ```
 
 Pour efectuer les tests, il suffit de faire :
