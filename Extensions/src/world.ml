@@ -1,3 +1,7 @@
+ (* Si true, utilise le champ de vision ; si false, affiche tout *)
+let use_vision = ref true
+
+
 (** Type du contenu d'une case du monde. *)
 type cell = Empty | Cactus | Camel | Cookie | Snake | Elephant | Spider | Egg | Cross
 type mode = SandboxWrite | SandboxExec | Play
@@ -6,7 +10,6 @@ let width, height = 50, 30
 let nb_cookies = 10
 let initial_vision = 3
 let increase_vision = 2  (* Facteur multiplicateur pour le champ de vision *)
-let use_vision = ref true  (* Si true, utilise le champ de vision ; si false, affiche tout *)
 
 let queue : ((unit -> unit) * cell) Queue.t = Queue.create ();;
 
