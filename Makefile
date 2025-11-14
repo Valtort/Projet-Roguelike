@@ -1,4 +1,4 @@
-run_basic:
+run_basegame:
 	cd BaseGame && dune exec rogue
 
 run_extensions:
