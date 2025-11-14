@@ -97,6 +97,7 @@ let rec sandbox_write_mode () =
     | `Key (`ASCII 'q', _)  ->
       set !current_position !last_seen;
       game_mode := Play;
+      render ();
       run_queue ();
 
     (* On quitte le cross mode mais on peut y revenir, permet de jouer sur le terrain crée
@@ -119,6 +120,7 @@ and sandbox_exec_mode () =
   | `Key (`ASCII 'q', _) ->
     set !current_position !last_seen;
     game_mode := Play;
+    render ();
     run_queue ();
   | `Key (`Tab , _)          ->
     game_mode := SandboxWrite;

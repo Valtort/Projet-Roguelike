@@ -52,7 +52,6 @@ let draw_coord (x , y : int * int) : image =
     draw_cell world.(x).(y)
   else
     (* Case hors de vue : afficher un nuage *)
-    let seen_cell = get_seen (x, y) in
     I.string A.empty "☁️ "
 
 (** Merci ChatGPT *)
