@@ -48,15 +48,7 @@ let draw_coord (x , y : int*int) : image =
     (* Case actuellement visible : afficher ce qui est vraiment là *)
     draw_cell world.(x).(y)
   else
-    (* Case hors de vue : afficher ce qui a été vu (fog of war) *)
-    let seen_cell = get_seen (x, y) in
-    match seen_cell with
-    | Cactus ->
-        (* Seuls les cactus (éléments statiques) sont affichés en fog of war *)
-        I.string A.(fg lightblack) (string_of_cell seen_cell)
-    | _ ->
-        (* Les animaux et cookies (éléments mobiles) ne sont pas affichés hors de la vision *)
-        I.string A.empty "☁️ "
+    I.string A.empty "☁️ "
 
 (** Merci ChatGPT *)
 let draw_world () : image =
