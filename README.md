@@ -8,23 +8,23 @@ opam install notty
 opam install dune
 ```
 
-Ce projet contient 2 fichiers :
+Ce projet contient 2 dossiers :
 - Le fichier BaseGame qui contient le jeu de base (Q1/Q2/Q3).
 - Le fichier Extensions qui contient les 3 extensions réalisées.
 
 ## BaseGame
 
-Nous nous sommes permis de modifier le code de base en enlevant le fait de ```render ()``` à chaques fois qu'une entités bouge, et nous faisons un affichage seulement après que le chameau ai performé ```End_of_turn``` de ce fait on gagne grandement en performances lorsqu'il y a beaucoup d'araignées sur la carte et le gameplay n'est pas impacté.
+Nous nous sommes permis de modifier le code de base en enlevant le fait de ```render ()``` à chaques fois qu'une entités bouge, et nous faisons un affichage seulement après que le chameau ai performé ```End_of_turn```. De ce fait on gagne grandement en performances lorsqu'il y a beaucoup d'araignées sur la carte et le gameplay n'est pas impacté.
 
 ### Lancement du jeu et tests
 
-Il faut d'abord se placer dans le fichier BaseGame/ puis  compiler avec dune
+Il faut d'abord se placer dans le dossier BaseGame/ puis compiler avec dune :
 
 ```bash
 make run_basegame
 ```
 
-Pour efectuer les tests, il suffit de faire :
+Pour effectuer les tests, il suffit de faire :
 ```bash
 make test_basegame
 ```
@@ -34,7 +34,7 @@ Vous contrôlez un chameau (avec les flèches directionnelles) sur une carte où
 - Un éléphant qui charge pendant 10 tours s'il voit le chameau, et est immobilisé pendant 20 tours s'il percute un cactus pendant sa charge.
 - Un serpent qui se déplace aléatoirement.
 - Une araignée qui peut pondre des oeufs avec une probabilité de 1% (modifiable) et qui se déplace aléatoirement.
-- Des oeufs qui font apparaitrent des araignées tous les 20 tours. Leur durée de vie est de 60 tours.
+- Des œufs qui font apparaître des araignées tous les 20 tours. Leur durée de vie est de 60 tours.
 
 ### Fichiers du jeu
 Les fichiers de bases :
@@ -43,9 +43,9 @@ Les fichiers de bases :
 - Le fichier `engine.ml` contient le moteur principal du jeu, qui gère la piscine de threads. Le moteur est basé sur une file où attendent les threads d’exécution des entités en pause. A chaque nouveau tour, une entité est défilée et la continuation de son exécution est exécutée jusqu’à terminaison, ou jusqu’à ce qu’elle lève l’effet `End_of_turn` (auquel cas elle est réinsérée dans la file).
 - Le fichier `utils.ml` contient des fonctions qui sont utiles à tous les types d’entités (se déplacer par exemple).
 - 🐪 Le fichier `player.ml` contient les fonctions nécessaires pour contrôler le personnage jouable (le chameau), et éteindre le jeu. La fonction camel d´ecrit le comportement du chameau : attendre une entrée clavier, l’exécuter, et recommencer via un appel récursif.
-- 🐍 Le fichier `snake.ml` contient la fonction nécessaire pour faire bouger aléatoirement le serpent. Une fonction ```random_direction``` présente dans `utils.ml` et permet de donné une direction aléatoire, que la case adjacente soit vide ou non (si la case adjacente est non vide, alors l'entité ne bouge pas).
-- 🐘 Le fichier `elephant.ml` contient les fonctions nécessaires pour implémenter les déplacement de l'éléphant tels que décrit plus haut.
-- 🕷️ 🥚 Le fichier `spider.ml` contient les fonctions nécessaires pour implémenter les déplacement de l'araignée ainsi que le fonctionnement des oeufs tels que décrit plus haut.
+- 🐍 Le fichier `snake.ml` contient la fonction nécessaire pour faire bouger aléatoirement le serpent. Une fonction ```random_direction``` présente dans `utils.ml` et permet de donner une direction aléatoire, que la case adjacente soit vide ou non (si la case adjacente est non vide, alors l'entité ne bouge pas).
+- 🐘 Le fichier `elephant.ml` contient les fonctions nécessaires pour implémenter les déplacement de l'éléphant tels que décrits plus haut.
+- 🕷️ 🥚 Le fichier `spider.ml` contient les fonctions nécessaires pour implémenter les déplacements de l'araignée ainsi que le fonctionnement des œufs tels que décrits plus haut.
 - Le fichier `main.ml` est en charge d’initialiser l’état du monde au début du jeu et de lancer la boucle de jeu principale.
 
 ## Extensions
@@ -57,18 +57,18 @@ Pour lancer le jeu avec les extensions :
 ```bash
 make run_extensions
 ```
-On peu aussi lancer le mode sandbox :
+On peut aussi lancer le mode sandbox :
 ```bash
 make run_extensions_sb
 ```
 
-Pour efectuer les tests, il suffit de faire :
+Pour effectuer les tests, il suffit de faire :
 ```bash
 make test_extensions
 ```
 
 ### Extension 1 : A*
-Dans la version extension, le serpent ne bouge plus aléatoirement mais adopte l’attitude suivant :
+Dans la version extension, le serpent ne bouge plus aléatoirement mais adopte l’attitude suivante :
 - aller vers le chameau le plus proche grâce à A* si un chameau est accessible
 - bouger dans une direction aléatoire si aucun chameau n’est accessible
 
@@ -86,13 +86,13 @@ C’est une référence (implémentation avec effets de bords) vers une liste tr
 >[!NOTE]
 >On suppose ici qu'il n'y a qu'un seul chameau dans le jeu.
 
-- On peut activer/desactiver cette extension avec  la variable globale `use_vision` située dans le fichier `world.ml`, false pour le jeu de base, true pour le jeu avec extension.
+- On peut activer/désactiver cette extension avec  la variable globale `use_vision` située dans le fichier `world.ml`, false pour le jeu de base, true pour le jeu avec extension.
 
 - Les cookies :
 
-    - On place `nb_cookies`(ici 10) aléatoirement sur la carte intialement.
+    - On place `nb_cookies`(ici 10) aléatoirement sur la carte initialement.
 
-    - Les chamaux peuvent manger les cookies en se déplaçant dessus.
+    - Les chameaux peuvent manger les cookies en se déplaçant dessus.
 
     - Seuls les chameaux peuvent manger les cookies et se déplacer sur les cases contenant les cookies.
 
@@ -111,12 +111,12 @@ C’est une référence (implémentation avec effets de bords) vers une liste tr
 > Il faut que la variable `use_vision` de l'extension 2 soit à false pour utiliser le mode sandbox sans l'extension 2 !
 
 ### La croix
-Nous avons rajouté une entité croix : ❌ dont les fonctions sont implémentées dans `sandbox.ml`, celle-ci peut se déplacer n'importe où sur la carte, y compris par-dessus d'autres entités, pour ce faire on mémorise dans `last_seen` la dernière entité que l'on a écrasé, et on la replace quand on pars de la case où elle était auparavant.
+Nous avons rajouté une entité croix : ❌ dont les fonctions sont implémentées dans `sandbox.ml`, celle-ci peut se déplacer n'importe où sur la carte, y compris par-dessus d'autres entités, pour ce faire on mémorise dans `last_seen` la dernière entité que l'on a écrasée, et on la replace quand on part de la case où elle était auparavant.
 
-La croix est initialement placé à la case (`width/2`, `height/2`).
+La croix est initialement placée à la case (`width/2`, `height/2`).
 
 ### Les commandes
-Pour déplacé la croix, on utilise les flèches directionnelles.
+Pour déplacer la croix, on utilise les flèches directionnelles.
 
 Voici une liste des touches permettant de placer des entités sur la carte :
 - a : 🕷️
@@ -127,7 +127,7 @@ Voici une liste des touches permettant de placer des entités sur la carte :
 - o : 🥚
 - s : 🐍
 
-Pour changer entre mode exécution et mode écriture, il faut appuyer sur `Tab`.
+Pour changer entre le mode exécution et le mode écriture, il faut appuyer sur `Tab`.
 
 - Dans le mode écriture, on peut poser des entités (mais pas les supprimer !).
 
