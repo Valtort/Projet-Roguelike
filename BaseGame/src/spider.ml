@@ -63,5 +63,3 @@ and appear_spider (egg_pos : int * int) =
     set spider_pos Spider;
     Queue.add (fun () -> player (fun () -> spider spider_pos)) queue
   end;
-
-(* test *)
