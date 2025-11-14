@@ -123,9 +123,9 @@ Voici une liste des touches permettant de placer des entités sur la carte :
 
 Pour changer entre mode exécution et mode écriture, il faut appuyer sur `Tab`.
 
--> Dans le mode écriture, on peut poser des entités (mais pas les supprimer !).
+- Dans le mode écriture, on peut poser des entités (mais pas les supprimer !).
 
--> Dans le mode exécution, on peut appuyer sur `Enter` pour simuler un tour du jeu.
+- Dans le mode exécution, on peut appuyer sur `Enter` pour simuler un tour du jeu.
 
 > [!NOTE]  
 > On peut appuyer sur "q" pour quitter DEFINITIVEMENT le mode écriture et lancer la partie sans avoir à appuyer sur `Enter` pour avancer de tour en tour.
