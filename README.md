@@ -18,11 +18,19 @@ Nous nous sommes permis de modifier le code de base en enlevant le fait de ```re
 
 ### Lancement du jeu et tests
 
+Il faut d'abord se placer dans le fichier BaseGame/ puis  compiler avec dune
 
-Il faut d'abord se placer dans le fichier BaseGame/ puis  compiler avec 
-```dune build```, on peut ensuite lancer le jeu avec ```dune exec rogue```.
+```bash
+cd BaseGame
+dune exec rogue
+```
 
-Pour les tests, il suffit de faire ```dune test``` après avoir compilé.
+Pour efectuer les tests, il suffit de faire :
+```bash
+cd BaseGame
+dune build
+dune test
+```
 
 ### Gameplay
 Vous contrôlez un chameau (avec les flèches directionnelles) sur une carte où sont placés aléatoirement des cactus, il y a également : 
@@ -48,10 +56,19 @@ Les fichiers de bases :
 ### Lancement du jeu et tests
 
 
-Il faut d'abord se placer dans le fichier Extensions/ puis  compiler avec 
-```dune build```, on peut ensuite lancer le jeu avec TODO : écrire les différents noms de fichiers qu'on a crée avec dune genre mainsb pour sandbox.
+Il faut d'abord se placer dans le fichier Extensions/ puis  compiler avec dune :
 
-Pour les tests, il suffit de faire ```dune test``` après avoir compilé.
+```bash
+cd Extensions
+dune exec rogue
+```
+
+Pour efectuer les tests, il suffit de faire :
+```bash
+cd Extensions
+dune build
+dune test
+```
 
 ### Extension 1 : Dijkstra 
 
