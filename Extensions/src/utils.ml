@@ -9,7 +9,7 @@ let ( ++ ) (x, y : int * int) (dx, dy : int * int) : int * int =
 
 (** [correct_coordinates coord] renvoi [true] si les coordonnées [(x,y)] sont
 valides, et [false] sinon *)
-let correct_coordinates ((x, y): int * int) : bool =
+let correct_coordinates (x, y : int * int) : bool =
   (0 <= x) && (x < width) && (0 <= y) && (y < height);;
 
 
@@ -35,9 +35,9 @@ let random_direction () : int * int =
   | 3 -> (0, - 1)
   | _ -> (0, 0);;
 
-let is_cactus (x, y) = (world.(x).(y) = Cactus);;
-let is_camel (x, y) = (world.(x).(y) = Camel);;
-let is_empty (x, y) = (world.(x).(y) = Empty);;
+let is_cactus (x, y : int * int) : bool = (world.(x).(y) = Cactus);;
+let is_camel (x, y : int * int) : bool = (world.(x).(y) = Camel);;
+let is_empty (x, y : int * int) : bool = (world.(x).(y) = Empty);;
 
 (** [get_camel_pos ()] renvoie la liste des positions des camels*)
 let get_camel_pos () : ((int*int) list) =
