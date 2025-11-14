@@ -37,6 +37,7 @@ type camel_info = {
 (** Liste mutable contenant tous les camels avec leur vision *)
 let camels_info : camel_info list ref = ref []
 
+
 (** [register_camel pos vis] enregistre ou met à jour un camel à la position [pos] avec vision [vis] *)
 let register_camel (pos : int * int) (vis : int) : unit =
   if get pos = Camel || get pos = Cross then
