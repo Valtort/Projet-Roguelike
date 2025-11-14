@@ -1,2 +1,4 @@
-_build/
-rogue.opam
+*/*/_build/
+*/rogue.opam
+.DS_Store
+*/*/.DS_Store
