@@ -1,6 +1,5 @@
 open Notty
 open World
-open Globals
 
 (** Affichage du contenu d'une cellule.*)
 let string_of_cell : cell -> string = function
@@ -83,8 +82,8 @@ let queue_nth (q : 'a Queue.t) (n : int) : 'a  =
   in
   aux 0
 
-(** [draw_queue q] affiche la file [q]*)
-let draw_queue (q : 'a Queue.t) : unit =
+(** [draw_queue q] crée une image de la file [q]*)
+let draw_queue (q : 'a Queue.t) : image =
   (* Choix arbitraire de taille de file *)
   let max_size = 25 in
   let text = "File d'exec" in
@@ -93,7 +92,7 @@ let draw_queue (q : 'a Queue.t) : unit =
   let q_copy = Queue.copy q in
   (* Fonction auxiliaire qui crée une liste d'éléments de type Cell (Camel, Elephant, Spider etc...) 
   de taille maximal k*)
-  let rec aux1 (k : int) : Cell list =
+  let rec aux1 (k : int) : cell list =
     if (Queue.is_empty q_copy) || k = 0 then []
     else
       let _, c = Queue.pop q_copy in

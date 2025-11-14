@@ -8,7 +8,6 @@ open Engine
 open Player
 open Elephant
 open Spider
-open Globals
 (* Initialisation du monde *)
 
 (* Initialisation du module Random*)

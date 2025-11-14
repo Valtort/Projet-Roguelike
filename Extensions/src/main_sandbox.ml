@@ -9,7 +9,6 @@ open Elephant
 open Spider
 open Sandbox
 open Snake
-open Globals
 (* Initialisation du monde *)
 let () = set (width/2, height/2) Cross
 

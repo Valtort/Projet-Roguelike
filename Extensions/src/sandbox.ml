@@ -9,7 +9,6 @@ open Player
 open Elephant
 open Spider
 open Snake
-open Globals
 
 
 let current_position = ref (width/2, height/2)

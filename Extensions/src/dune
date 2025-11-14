@@ -1,6 +1,6 @@
 (library
   (name roguelib)
-  (modules spider snake elephant player engine ui utils world sandbox globals)
+  (modules spider snake elephant player engine ui utils world sandbox)
   (libraries notty.unix))
 
 

@@ -2,7 +2,6 @@ open Ui
 open Effect
 open Effect.Deep
 open World
-open Globals
 
 (** L'effet [End_of_turn] indique qu'une entité est prête à passer la main car elle a terminé
     son tour.*)
