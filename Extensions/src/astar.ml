@@ -51,7 +51,7 @@ let adjacent_empty_or_camel_cells (current_position : int * int) : (int * int) a
    - un [bool] qui indique si un chameau peut être atteint
    - une liste pred des prédecesseurs pour atteindre ce chameau
    - target la position du chameau à target *)
-let a_star current_position =
+let a_star (current_position : int*int) : bool * (int * int) array array * (int * int) =
   let deja_traite = Array.make_matrix width height false
   and pred = Array.make_matrix width height (0, 0) (* predecesseur du plus court chemin de current_position à x y *)
   and dist = Array.make_matrix width height max_int; (* distance du plus court chemin de current_position à x y *)
@@ -80,4 +80,4 @@ let a_star current_position =
     end;
     if is_camel s then ( camel_found := true; target := s )
   done;
-  !camel_found, pred, target;;
+  !camel_found, pred, !target;;

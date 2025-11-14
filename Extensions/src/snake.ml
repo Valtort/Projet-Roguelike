@@ -24,7 +24,8 @@ let adjacent_empty_or_camel_cells (current_position : int * int) : (int * int) a
 (** [snake current_position] effectue tous les prochains tours du serpent à partir de la position
     [current_position] (essaie de suivre le chameau en utilisant Dijjkstra)*)
 let rec snake (current_position : int * int) : unit =
-    let camel_found, pred, target = a_star current_position in
+    let camel_found, pred, t = a_star current_position in
+    let target = ref t in
 
   (* Si on a trouvé un chameau on veut connaitre la case voisine au serpent sur laquelle
     il faut aller pour atteindre le chameau *)

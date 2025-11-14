@@ -156,6 +156,18 @@ let test_file_prio () =
   assert (defile fp = ((3,0), 5));
   assert (defile fp = ((1,0), 10));;
 
+let test_astar () =
+  reset_world ();
+  for i = 0 to 10 do
+    set (i, 0) Cactus;
+    set (i, 2) Cactus;
+  done;
+  set (0, 1) Camel;
+  set (20, 1) Snake;
+  let camel_found, pred, target = a_star (20, 1) in
+  assert camel_found;
+  assert (target = (0, 1));
+  assert (pred.(19).(1) = (20, 1));;
 
 let () =
   test_world();
@@ -172,4 +184,6 @@ let () =
   print_string"Test extension 2 : réussi !\n";
   test_file_prio ();
   print_string"Test file prio : réussi !\n";
+  test_astar ();
+  print_string"Test Astar : réussi !\n";
   print_string"Tous les tests ont réussis !\n";;
