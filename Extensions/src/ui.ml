@@ -30,7 +30,7 @@ let is_currently_visible (x : int) (y : int) : bool =
   List.exists (fun camel ->
     let (cx, cy) = camel.position in
     let vision_range = increase_vision * camel.vision in
-    abs (x - cx) <= vision_range && abs (y - cy) <= vision_range
+    (x - cx)*(x - cx) + (y - cy)*(y - cy) <= vision_range*vision_range
   ) camels
 
 (** Fonctions de création de l'image correspondant à l'état actuel du monde.*)
@@ -56,7 +56,7 @@ let draw_coord (x , y : int*int) : image =
         I.string A.(fg lightblack) (string_of_cell seen_cell)
     | _ ->
         (* Les animaux et cookies (éléments mobiles) ne sont pas affichés hors de la vision *)
-        I.string A.empty "  "
+        I.string A.empty "☁️ "
 
 (** Merci ChatGPT *)
 let draw_world () : image =
