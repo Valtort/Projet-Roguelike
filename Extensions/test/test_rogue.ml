@@ -91,11 +91,13 @@ let test_sandbox () =
   assert(get (20,20) = Cactus)
  
 (*-------------------------------------------*)
-(*-----  Test pour le fichier utils.ml ------*)
+(*----- Test pour les fichiers utils.ml -----*)
+(*-----          et world.ml            -----*)
 (*-------------------------------------------*)
 (*               Extension 2                 *)
 
-let test_utils2 () = 
+let test_ext2 () = 
+  (* Fonctions de utils.ml *)
   reset_world ();
   set (10,10) Cactus;
   set (11,11) Camel;
@@ -108,8 +110,17 @@ let test_utils2 () =
   assert (List.mem (11,12) pos_l);
   assert (List.mem (11,13) pos_l);
   assert (List.mem (0,12) pos_l);
-  assert (not (List.mem (10,10) pos_l))
+  assert (not (List.mem (10,10) pos_l));
 
+  (* Fonctions de world.ml *)
+  reset_world ();
+  assert(get_camels_info () = []);
+  set (10,10) Camel;
+  register_camel (10,10) 2;
+  assert(get_camels_info () = [{ position = (10,10); vision = 2 }]);
+  update_seen_map ();
+  
+ 
 let () = 
   test_world();
   print_string"Test world : réussi !\n";
@@ -120,7 +131,7 @@ let () =
   test_spider();
   print_string"Test spider : réussi !\n";
   test_sandbox();
-  print_string"Test sandbox : réussi !\n";
-  test_utils2();
+  print_string"Test sandbox (extension 3) : réussi !\n";
+  test_ext2();
   print_string"Test extension 2 : réussi !\n";
   print_string"Tous les tests ont réussis !\n"

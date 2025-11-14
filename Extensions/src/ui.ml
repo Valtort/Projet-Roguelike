@@ -11,7 +11,7 @@ let string_of_cell : cell -> string = function
   | Spider     -> "\u{1F577}"
   | Egg        -> "\u{1F95A}"
   | Cross      -> "\u{274C}"
-  | Cookie   -> "\u{1F36A}"
+  | Cookie     -> "\u{1F36A}"
 
 (* Codes des emojis pour les animaux pertinents
    serpent : "\u{1F40D}"
@@ -51,7 +51,7 @@ let draw_coord (x , y : int * int) : image =
     draw_cell world.(x).(y)
   else
     (* Case hors de vue : afficher un nuage *)
-    I.string A.empty "☁️ "
+    I.string A.empty "\u{2601} "
 
 (** Merci ChatGPT *)
 let draw_world () : image =
