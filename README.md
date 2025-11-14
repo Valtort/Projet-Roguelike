@@ -71,12 +71,18 @@ dune build
 dune test
 ```
 
-### Extension 1 : Dijkstra
+### Extension 1 : A*
 Dans la version extension, le serpent ne bouge plus aléatoirement mais adopte l’attitude suivant :
-- aller vers le chameau le plus proche si un chameau est accessible
+- aller vers le chameau le plus proche grâce à A* si un chameau est accessible
 - bouger dans une direction aléatoire si aucun chameau n’est accessible
 
-De plus, si un chameau est accessible, le serpent ne se déplace qu’un tour sur deux, sinon le serpent harcèle le chameau et ce n’est pas très marrant à jouer.
+De plus, si un chameau est accessible, le serpent ne se déplace qu’un tour sur deux, car sinon le serpent harcèle le chameau et ce n’est pas très marrant à jouer.
+L’heuristique utilisée pour A* est la distance à vol d’oiseau.
+La file de priorité utilisée à le type :
+```ocaml
+type file_prio = (('a * int) list) ref;;
+```
+C’est une référence (implémentation avec effets de bords) vers une liste triée par ordre croissant qui contient des couples `(ele, prio)` où `ele` est de type polymorphe `’a` et `prio` sa priorité de type `int`. On peut alors défiler une file de priorité en dépilant la liste et insérer un élément d’une certaine priorité dans la liste en conservant la croissance des priorités dans la liste.
 
 ---
 
@@ -86,7 +92,7 @@ De plus, si un chameau est accessible, le serpent ne se déplace qu’un tour su
 
 - On peut activer/desactiver cette extension avec  la variable globale `use_vision` située dans le fichier `world.ml`, false pour le jeu de base, true pour le jeu avec extension.
 
-- Les cookies : 
+- Les cookies :
 
     - On place `nb_cookies`(ici 10) aléatoirement sur la carte intialement.
 
@@ -96,7 +102,7 @@ De plus, si un chameau est accessible, le serpent ne se déplace qu’un tour su
 
     - Chaque cookie augmente le champ de vision de `increase_vision` (ici 2).
 
-- Le fonctionnement du champ de vision est un brouillard de guerre (fog of war) : 
+- Le fonctionnement du champ de vision est un brouillard de guerre (fog of war) :
 
 <img width="1221" height="727" alt="image" src="https://github.com/user-attachments/assets/7c666f67-8714-465c-851f-7bb9e0d0e3ca" />
 
