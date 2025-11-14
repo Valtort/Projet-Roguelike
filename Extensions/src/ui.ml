@@ -131,7 +131,8 @@ open Notty_unix
 (** [terminal] est une constante qui correspond au terminal où le jeu est joué*)
 let terminal : Term.t = Term.create ()
 
-(** [render_sandbox ()]  met à jour l'affichage courant dans le terminal quand on est en mode sandbox*)
+(** [render_sandbox ()]  met à jour l'affichage courant dans le terminal quand on est en mode sandbox
+en affichant l'état de la file*)
 let render_sandbox () = Term.image terminal (
   I.(<->)
     (I.(<|>)
