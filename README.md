@@ -17,8 +17,7 @@ Ce projet contient 2 dossiers :
 Nous nous sommes permis de modifier le code de base en enlevant le fait de ```render ()``` à chaques fois qu'une entités bouge, et nous faisons un affichage seulement après que le chameau ai performé ```End_of_turn```. De ce fait on gagne grandement en performances lorsqu'il y a beaucoup d'araignées sur la carte et le gameplay n'est pas impacté.
 
 ### Lancement du jeu et tests
-
-Il faut d'abord se placer dans le dossier BaseGame/ puis compiler avec dune :
+Pour lancer le jeu de base :
 
 ```bash
 make run_basegame
