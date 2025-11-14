@@ -26,9 +26,7 @@ make run_basic
 
 Pour efectuer les tests, il suffit de faire :
 ```bash
-cd BaseGame
-dune build
-dune test
+make test_basegame
 ```
 
 ### Gameplay
@@ -66,9 +64,7 @@ make run_extensions_sb
 
 Pour efectuer les tests, il suffit de faire :
 ```bash
-cd Extensions
-dune build
-dune test
+make test_extensions
 ```
 
 ### Extension 1 : A*
@@ -158,5 +154,3 @@ Mode exécution :
 
 
 ---
-
-### Modifications des fichiers de bases
