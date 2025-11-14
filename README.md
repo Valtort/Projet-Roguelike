@@ -17,8 +17,7 @@ Ce projet contient 2 dossiers :
 Nous nous sommes permis de modifier le code de base en enlevant le fait de ```render ()``` à chaques fois qu'une entités bouge, et nous faisons un affichage seulement après que le chameau ai performé ```End_of_turn```. De ce fait on gagne grandement en performances lorsqu'il y a beaucoup d'araignées sur la carte et le gameplay n'est pas impacté.
 
 ### Lancement du jeu et tests
-
-Il faut d'abord se placer dans le dossier BaseGame/ puis compiler avec dune :
+Pour lancer le jeu de base :
 
 ```bash
 make run_basegame
@@ -83,8 +82,6 @@ C’est une référence (implémentation avec effets de bords) vers une liste tr
 ---
 
 ### Extension 2 : Champ de vision et cookies
->[!NOTE]
->On suppose ici qu'il n'y a qu'un seul chameau dans le jeu.
 
 - On peut activer/désactiver cette extension avec  la variable globale `use_vision` située dans le fichier `world.ml`, false pour le jeu de base, true pour le jeu avec extension.
 
