@@ -17,7 +17,7 @@ let test_world () =
 (*------ Test pour le fichier utils.ml ------*)
 (*-------------------------------------------*)
 
-let test_utils () = 
+let test_utils () =
   assert((2,4) ++ (5,7) = (7,11));
   set (10,20) Camel;
   let _ = move (10,20) (20,20) in
@@ -27,7 +27,7 @@ let test_utils () =
   assert(get (20,20) = Camel);
   assert(correct_coordinates (10,20));
   assert(not (correct_coordinates (width+1, height+1)));
-  let directions = [(- 1, 0);(+ 1, 0);(0, + 1);(0, - 1);] in 
+  let directions = [(- 1, 0);(+ 1, 0);(0, + 1);(0, - 1);] in
   assert(List.mem (random_direction ()) directions);
   assert(is_camel (20,20))
 
@@ -35,7 +35,7 @@ let test_utils () =
 (*-----Test pour le fichier elephant.ml------*)
 (*-------------------------------------------*)
 
-let test_elephant () = 
+let test_elephant () =
   set (10,20) Camel;
   assert(dir_to_camel (10,10) = (0,1));
   set (10, 15) Cactus;
@@ -48,7 +48,7 @@ let test_elephant () =
 (*----- Test pour le fichier spider.ml ------*)
 (*-------------------------------------------*)
 
-let test_spider () = 
+let test_spider () =
   set (10,10) Cactus;
   set (8,10) Cactus;
   assert(adjacent_empty_cells (9,10) = [|(9,9); (9,11)|]);
@@ -57,7 +57,7 @@ let test_spider () =
   set (10,10) Empty;
   assert(adjacent_empty_cells (9,10) = [|(10,10);(9,9); (8,10);(9,11)|])
 
-let () = 
+let () =
   test_world();
   print_string"Test world : réussi !\n";
   test_utils();

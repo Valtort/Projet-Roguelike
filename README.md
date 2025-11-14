@@ -21,8 +21,7 @@ Nous nous sommes permis de modifier le code de base en enlevant le fait de ```re
 Il faut d'abord se placer dans le fichier BaseGame/ puis  compiler avec dune
 
 ```bash
-cd BaseGame
-dune exec rogue
+make run_basic
 ```
 
 Pour efectuer les tests, il suffit de faire :
@@ -56,11 +55,13 @@ Les fichiers de bases :
 ### Lancement du jeu et tests
 
 
-Il faut d'abord se placer dans le fichier Extensions/ puis  compiler avec dune :
-
+Pour lancer le jeu avec les extensions :
 ```bash
-cd Extensions
-dune exec rogue
+make run_extensions
+```
+On peu aussi lancer le mode sandbox :
+```bash
+make run_extensions_sb
 ```
 
 Pour efectuer les tests, il suffit de faire :
