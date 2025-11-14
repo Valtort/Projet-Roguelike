@@ -24,6 +24,7 @@ let rec keyboard_direction () : int * int =
     [current_position] (attendre une entrée, se déplacer en conséquence, recommencer)
     [vision] (donne la largeur du champ de vision du camel)*)
 let rec camel (current_position : int * int) (vision : int) : unit =
+  render ();
   (* Enregistrer la position et vision du camel (Extension 2) *)
   register_camel current_position vision;
   let new_position = current_position ++ keyboard_direction () in
@@ -39,12 +40,11 @@ let rec camel (current_position : int * int) (vision : int) : unit =
       perform (End_of_turn Camel);
       camel new_position (vision+increase_vision)
     )
-    
+
   | _ ->
     (
       let new_position = move current_position new_position in
       register_camel new_position vision;
-      render ();
       perform (End_of_turn Camel);
       camel new_position vision
     )

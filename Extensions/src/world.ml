@@ -1,3 +1,7 @@
+ (* Si true, utilise le champ de vision ; si false, affiche tout *)
+let use_vision = ref true
+
+
 (** Type du contenu d'une case du monde. *)
 type cell = Empty | Cactus | Camel | Cookie | Snake | Elephant | Spider | Egg | Cross
 type mode = SandboxWrite | SandboxExec | Play

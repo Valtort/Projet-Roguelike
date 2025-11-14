@@ -6,9 +6,9 @@ open Spider
 open Sandbox
 
 (** [reset_world ()] reinitialse le monde *)
-let reset_world () : unit = 
-  for i = 0 to width - 1 do 
-    for j = 0 to height - 1 do 
+let reset_world () : unit =
+  for i = 0 to width - 1 do
+    for j = 0 to height - 1 do
       world.(i).(j) <- Empty;
     done;
   done
@@ -28,7 +28,7 @@ let test_world () =
 (*------ Test pour le fichier utils.ml ------*)
 (*-------------------------------------------*)
 
-let test_utils () = 
+let test_utils () =
   reset_world ();
   assert((2,4) ++ (5,7) = (7,11));
   set (10,20) Camel;
@@ -39,7 +39,7 @@ let test_utils () =
   assert(get (20,20) = Camel);
   assert(correct_coordinates (10,20));
   assert(not (correct_coordinates (width+1, height+1)));
-  let directions = [(- 1, 0);(+ 1, 0);(0, + 1);(0, - 1);] in 
+  let directions = [(- 1, 0);(+ 1, 0);(0, + 1);(0, - 1);] in
   assert(List.mem (random_direction ()) directions);
   assert(is_camel (20,20))
 
@@ -47,7 +47,7 @@ let test_utils () =
 (*-----Test pour le fichier elephant.ml------*)
 (*-------------------------------------------*)
 
-let test_elephant () = 
+let test_elephant () =
   reset_world ();
   set (10,20) Camel;
   assert(dir_to_camel (10,10) = (0,1));
@@ -61,7 +61,7 @@ let test_elephant () =
 (*----- Test pour le fichier spider.ml ------*)
 (*-------------------------------------------*)
 
-let test_spider () = 
+let test_spider () =
   reset_world ();
   set (10,10) Cactus;
   set (8,10) Cactus;
@@ -71,11 +71,27 @@ let test_spider () =
   set (10,10) Empty;
   assert(adjacent_empty_cells (9,10) = [|(10,10);(9,9); (8,10);(9,11)|])
 
+
+(*-------------------------------------------*)
+(*-----Test pour le fichier snake.ml------*)
+(*-------------------------------------------*)
+
+
+let _: cell array array =
+  [|
+    [|Empty; Empty; Empty; Empty; Empty; Empty|];
+    [|Empty; Cactus; Cactus; Cactus; Cactus; Empty|];
+    [|Empty; Empty ; Empty ; Snake ; Cactus; Empty|];
+    [|Empty; Cactus; Cactus; Cactus; Cactus; Empty|];
+    [|Empty; Empty ; Empty ; Empty ; Empty ; Empty|];
+    [|Empty; Empty ; Empty ; Camel ; Empty ; Empty|];
+  |];;
+
 (*-------------------------------------------*)
 (*----- Test pour le fichier sandbox.ml------*)
 (*-------------------------------------------*)
 (*               Extension 3                 *)
-let test_sandbox () = 
+let test_sandbox () =
   reset_world ();
   current_position := (0,0);
   set (0,0) Cross;
@@ -88,15 +104,15 @@ let test_sandbox () =
   assert(get (20,20) = Cross);
   move_cross (25,25);
   assert(get (25,25) = Cross);
-  assert(get (20,20) = Cactus)
- 
+  assert(get (20,20) = Cactus);;
+
 (*-------------------------------------------*)
 (*----- Test pour les fichiers utils.ml -----*)
 (*-----          et world.ml            -----*)
 (*-------------------------------------------*)
 (*               Extension 2                 *)
 
-let test_ext2 () = 
+let test_ext2 () =
   (* Fonctions de utils.ml *)
   reset_world ();
   set (10,10) Cactus;
@@ -118,10 +134,10 @@ let test_ext2 () =
   set (10,10) Camel;
   register_camel (10,10) 2;
   assert(get_camels_info () = [{ position = (10,10); vision = 2 }]);
-  update_seen_map ();
-  
- 
-let () = 
+  update_seen_map ();;
+
+
+let () =
   test_world();
   print_string"Test world : réussi !\n";
   test_utils();
@@ -134,4 +150,4 @@ let () =
   print_string"Test sandbox (extension 3) : réussi !\n";
   test_ext2();
   print_string"Test extension 2 : réussi !\n";
-  print_string"Tous les tests ont réussis !\n"
+  print_string"Tous les tests ont réussis !\n";;
