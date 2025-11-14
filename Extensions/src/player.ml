@@ -35,9 +35,10 @@ let rec camel (current_position : int * int) (vision : int) : unit =
       set new_position Empty;
       let new_position = move current_position new_position in
       (* On augmente la vision du chameau qui a mangé le cookie *)
-      register_camel new_position (vision + 1);
+      register_camel new_position (vision + increase_vision);
+      render ();
       perform (End_of_turn Camel);
-      camel new_position (vision+1)
+      camel new_position (vision+increase_vision)
     )
 
   | _ ->

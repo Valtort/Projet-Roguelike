@@ -127,15 +127,15 @@ Voici une liste des touches permettant de placer des entités sur la carte :
 
 Pour changer entre mode exécution et mode écriture, il faut appuyer sur `Tab`.
 
--> Dans le mode écriture, on peut poser des entités (mais pas les supprimer !).
+- Dans le mode écriture, on peut poser des entités (mais pas les supprimer !).
 
--> Dans le mode exécution, on peut appuyer sur `Enter` pour simuler un tour du jeu.
+- Dans le mode exécution, on peut appuyer sur `Enter` pour simuler un tour du jeu.
 
 > [!NOTE]
 > On peut appuyer sur "q" pour quitter DEFINITIVEMENT le mode écriture et lancer la partie sans avoir à appuyer sur `Enter` pour avancer de tour en tour.
 
 ### Pretty-print
-On affiche à droite du jeu la file d'exécution, celle-ci affiche la prochaine entité qui doit jouer. Elle est de taille limitée à TODO : mettre la valeur qu'on aura choisit.
+On affiche à droite du jeu la file d'exécution, celle-ci affiche la prochaine entité qui doit jouer. Elle est de taille limitée à 25.
 
 On a modifié l'effet `End_of_turn` pour que celui-ci mémorise l'entité qui a levé `End_of_turn`. Ex : `End_of_turn Camel`, `End_of_turn Spider` etc...
 ### Suppression d'entités
