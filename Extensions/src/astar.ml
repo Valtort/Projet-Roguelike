@@ -2,16 +2,16 @@ open World
 open Utils
 
 (* Implémentation de la file de priorité avec *)
-type file_prio = (((int*int) * int) list) ref;;
+type 'a file_prio = (('a * int) list) ref;;
 
 (** créer une file de prio vide *)
 let fp_vide () = ref [];;
 
 (** [fp_is_empty fp] test si une file de priorité fp est vide *)
-let fp_is_empty (fp: file_prio) = !fp = [];;
+let fp_is_empty (fp: 'a file_prio) = !fp = [];;
 
 (** [enfile ele prio fp] enfile ele dans la file de priorité fp avec la priorité prio *)
-let enfile (ele: (int*int)) (prio: int) (fp: file_prio)=
+let enfile (ele: (int*int)) (prio: int) (fp: 'a file_prio)=
   let rec aux (li: ((int*int) * int) list) = match li with
     |[]                             -> [(ele, prio)]
     |(e, p)::q when p < prio        -> (e, p)::(aux q)
@@ -19,7 +19,7 @@ let enfile (ele: (int*int)) (prio: int) (fp: file_prio)=
   in fp := aux !fp;;
 
 (** [defile fp] defile la file de priorité fp et renvoie l'élément défilé*)
-let defile (fp: file_prio) = match !fp with
+let defile (fp: 'a file_prio) = match !fp with
   | []   -> failwith "Une file vide ne peut pas être défilé"
   | x::t -> fp := t; x;;
 
