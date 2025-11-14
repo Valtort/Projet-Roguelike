@@ -41,7 +41,7 @@ let horizontal_bar : image = I.string A.empty "─";;
 let big_horizontal_bar : image = I.vcat @@ List.init (height + 2) (fun _ -> vertical_bar);;
 
 let draw_coord (x , y : int*int) : image =
-  if not !use_vision || !game_mode <> Play then
+  if not !use_vision || !game_mode <> Play || get_camels_info () = [] then
     (* Mode sans vision : afficher tout le monde *)
     draw_cell world.(x).(y)
   else if is_currently_visible x y then

@@ -29,7 +29,10 @@ let player (character : unit -> unit) : unit =
     (le type de retour 'a s'explique par le fait que la fonction n'est pas censée terminer)*)
 let run_queue () : 'a =
   while true do
-    render ();
+    (* Optimisation when their are lots of spiders to call less renders*)
+    if (!game_mode <> Play) || (get_camels_info () = []) then
+      render ();
+
     if (not (Queue.is_empty queue)) then begin
       let suspended_character, _ = Queue.pop queue in
       suspended_character () ;
