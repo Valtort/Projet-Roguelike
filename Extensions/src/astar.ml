@@ -1,8 +1,7 @@
 open World
 open Utils
 
-(* Implémentation de la file de priorité  *)
-
+(* Implémentation de la file de priorité avec *)
 type file_prio = (((int*int) * int) list) ref;;
 
 let fp_vide () = ref [];;
