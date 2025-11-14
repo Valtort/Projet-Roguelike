@@ -98,7 +98,7 @@ Le fonctionnement du champ de vision est un brouillard de guerre (fog of war) :
 ### Extension 3 : Sandbox
 
 > [!IMPORTANT]  
-> Il faut que la variable `use_vision` de l'extension 2 soit à false pour utiliser le mode sandbox !
+> Il faut que la variable `use_vision` de l'extension 2 soit à false pour utiliser le mode sandbox sans l'extension 2 !
 
 ### La croix
 Nous avons rajouté une entité croix : ❌ dont les fonctions sont implémentées dans `sandbox.ml`, celle-ci peut se déplacer n'importe où sur la carte, y compris par-dessus d'autres entités, pour ce faire on mémorise dans `last_seen` la dernière entité que l'on a écrasé, et on la replace quand on pars de la case où elle était auparavant.
@@ -129,6 +129,7 @@ Pour changer entre mode exécution et mode écriture, il faut appuyer sur `Tab`.
 ### Pretty-print
 On affiche à droite du jeu la file d'exécution, celle-ci affiche la prochaine entité qui doit jouer. Elle est de taille limitée à TODO : mettre la valeur qu'on aura choisit.
 
+On a modifié l'effet `End_of_turn` pour que celui-ci mémorise l'entité qui a levé `End_of_turn`. Ex : `End_of_turn Camel`, `End_of_turn Spider` etc...
 ### Suppression d'entités
 Nous n'avons pas pu ajouter la suppression d'entités car il fallait également supprimer l'entité de la file de threads.
 
