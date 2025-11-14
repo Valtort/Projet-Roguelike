@@ -19,7 +19,7 @@ Nous nous sommes permis de modifier le code de base en enlevant le fait de ```re
 ### Lancement du jeu et tests
 
 
-Il faut d'abord ce plaer dans le fichier BaseGame/ puis  compiler avec 
+Il faut d'abord ce placer dans le fichier BaseGame/ puis  compiler avec 
 ```dune build```, on peut ensuite lancer le jeu avec ```dune exec rogue```.
 
 Pour les tests, il suffit de faire ```dune test``` après avoir compiler.
@@ -38,5 +38,27 @@ Les fichiers de bases :
 - Le fichier `engine.ml` contient le moteur principal du jeu, qui gère la piscine de threads. Le moteur est basé sur une file où attendent les threads d’exécution des entités en pause. A chaque nouveau tour, une entité est défilée et la continuation de son exécution est exécutée jusqu’à terminaison, ou jusqu’à ce qu’elle lève l’effet `End_of_turn` (auquel cas elle est réinsérée dans la file).
 - Le fichier `utils.ml` contient des fonctions qui sont utiles à tous les types d’entités (se déplacer par exemple).
 - Le fichier `player.ml` contient les fonctions nécessaires pour contrôler le personnage jouable (le chameau), et éteindre le jeu. La fonction camel d´ecrit le comportement du chameau : attendre une entrée clavier, l’exécuter, et recommencer via un appel récursif.
-- Le fichier `snake.ml` contient la fonction nécessaire pour faire bouger aléatoirement le serpent. Une fonction ```random_direction``` présente dans `utils.ml` et permet de donné une direction aléatoire, que la case adjacente soit vide ou non (si la case adjacente est non vide, alors l'entité ne bouge pas)
+- Le fichier `snake.ml` contient la fonction nécessaire pour faire bouger aléatoirement le serpent. Une fonction ```random_direction``` présente dans `utils.ml` et permet de donné une direction aléatoire, que la case adjacente soit vide ou non (si la case adjacente est non vide, alors l'entité ne bouge pas).
+- Le fichier `elephant.ml` contient les fonctions nécessaires pour implémenter les déplacement de l'éléphant tels que décrit plus haut.
+- Le fichier `spider.ml` contient les fonctions nécessaires pour implémenter les déplacement de l'araignée ainsi que le fonctionnement des oeufs tels que décrit plus haut.
 - Le fichier `main.ml` est en charge d’initialiser l’état du monde au début du jeu et de lancer la boucle de jeu principale.
+
+## Extensions
+
+### Lancement du jeu et tests
+
+
+Il faut d'abord ce placer dans le fichier Extensions/ puis  compiler avec 
+```dune build```, on peut ensuite lancer le jeu avec TODO : écrire les différents noms de fichiers qu'on a crée avec dune genre mainsb pour sandbox.
+
+Pour les tests, il suffit de faire ```dune test``` après avoir compiler.
+
+### Extension 1 : A* 
+
+### Extension 2 : Champ de vision et cookies
+
+### Extension 3 : Sandbox
+
+
+
+### Modifications des fichiers de bases
