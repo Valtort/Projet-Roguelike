@@ -1,3 +1,4 @@
+open Roguelib
 open World
 open Ui
 open Utils
@@ -7,6 +8,7 @@ open Engine
 open Player
 open Elephant
 open Spider
+open Globals
 (* Initialisation du monde *)
 
 (* Initialisation du module Random*)
@@ -47,5 +49,6 @@ let () =
 
 (* Début du jeu *)
 let () =
+  game_mode := Play;
   render ();
   run_queue ();;

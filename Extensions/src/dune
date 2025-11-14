@@ -1,12 +1,20 @@
-(executable
- (public_name rogue)
- (name main)
- (libraries notty.unix))
+(library
+  (name roguelib)
+  (modules spider snake elephant player engine ui utils world sandbox globals)
+  (libraries notty.unix))
 
- (executable
+
+(executable
+  (public_name rogue)
+  (name main)
+  (modules main)
+  (libraries notty.unix roguelib))
+
+(executable
   (public_name rogue_sb)
   (name main_sandbox)
-  (libraries notty.unix))
+  (modules main_sandbox)
+  (libraries notty.unix roguelib))
 
 (env
   (dev

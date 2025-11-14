@@ -58,6 +58,7 @@ let rec snake (current_position : int * int) : unit =
     done;
     let new_position = move current_position !target in
     perform (End_of_turn Snake);
+    perform (End_of_turn Snake);
     snake new_position;
   end
   else begin

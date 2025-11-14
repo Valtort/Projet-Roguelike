@@ -1,5 +1,6 @@
 open Notty
 open World
+open Globals
 
 (** Affichage du contenu d'une cellule.*)
 let string_of_cell : cell -> string = function
@@ -40,7 +41,7 @@ let horizontal_bar : image = I.string A.empty "─";;
 let big_horizontal_bar : image = I.vcat @@ List.init (height + 2) (fun _ -> vertical_bar);;
 
 let draw_coord (x , y : int*int) : image =
-  if not use_vision then
+  if not !use_vision then
     (* Mode sans vision : afficher tout le monde *)
     draw_cell world.(x).(y)
   else if is_currently_visible x y then
@@ -113,22 +114,34 @@ let draw_queue q =
 
 let instruction () =
   I.string A.empty @@
-  match !sandbox_mode with
-    |Write -> "       c:\u{1F335} | a:\u{1F577} | g:\u{1F42A} | s:\u{1F40D} | e:\u{1F418} | o:\u{1F95A} | arrows: move \u{274C} | TAB: switch to exec mode"
-    |Exec -> "          ENTER : one step | q : play game (no going back) | TAB: switch to write mode"
+  match !game_mode with
+    |SandboxWrite -> "c:\u{1F335} | a:\u{1F577} | g:\u{1F42A} | s:\u{1F40D} | e:\u{1F418} | o:\u{1F95A} | arrows: move \u{274C} | TAB: switch to exec mode |  q : play game (no going back)"
+    |SandboxExec  -> "       ENTER : play one game step | q : play game (no going back) | TAB: switch to write mode"
+    |Play         -> "                        Pour bouger les chameaux, utilisez les flèches";;
 
 open Notty_unix
 
 (** [terminal] est une constante qui correspond au terminal où le jeu est joué*)
 let terminal : Term.t = Term.create ()
 
-(** [render ()] met à jour l'affichage courant dans le terminal*)
-let render () : unit = Term.image terminal (
+let render_sandbox () = Term.image terminal (
   I.(<->)
     (I.(<|>)
         (draw_world ())
         (draw_queue queue))
     (instruction ())
   )
+
+let render_play () = Term.image terminal (
+  I.(<->)
+    (draw_world ())
+    (instruction ())
+  )
+
+(** [render ()] met à jour l'affichage courant dans le terminal*)
+let render () : unit = match !game_mode with
+  | SandboxExec | SandboxWrite -> render_sandbox ()
+  | Play                       -> render_play ();;
+
 
 let () = render ()

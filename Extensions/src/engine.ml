@@ -29,13 +29,17 @@ let player (character : unit -> unit) : unit =
 let run_queue () : 'a =
   while true do
     render () ;
-    let suspended_character, _ = Queue.pop queue in
-    suspended_character () ;
+    if (not (Queue.is_empty queue)) then begin
+      let suspended_character, _ = Queue.pop queue in
+      suspended_character () ;
+    end;
   done
 
 (** [run_one_step ()] exécute la fonction correspondant au tour de la première entitées de queue.
     Si la file devient vide lors de la partie, la fonction lève l'exception [Queue.Empty].*)
 let run_one_step () : unit =
   render () ;
-  let suspended_character, _ = Queue.pop queue in
-  suspended_character ()
+  if (not (Queue.is_empty queue)) then begin
+      let suspended_character, _ = Queue.pop queue in
+      suspended_character ()
+  end

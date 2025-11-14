@@ -1,15 +1,14 @@
 (** Type du contenu d'une case du monde. *)
 type cell = Empty | Cactus | Camel | Cookie | Snake | Elephant | Spider | Egg | Cross
-type mode = Write | Exec
+type mode = SandboxWrite | SandboxExec | Play
 
 let width, height = 50, 30
 let nb_cookies = 10
 let initial_vision = 3
 let increase_vision = 2  (* Facteur multiplicateur pour le champ de vision *)
-let use_vision = false  (* Si true, utilise le champ de vision ; si false, affiche tout *)
+let use_vision = ref false  (* Si true, utilise le champ de vision ; si false, affiche tout *)
 
 let queue : ((unit -> unit) * cell) Queue.t = Queue.create ();;
-let sandbox_mode = ref Write;;
 
 (** Le monde [world] est un tableau mutable. *)
 let world : cell array array = Array.make_matrix width height Empty
