@@ -83,15 +83,19 @@ De plus, si un chameau est accessible, le serpent ne se déplace qu’un tour su
 >[!NOTE]
 >On suppose ici qu'il n'y a qu'un seul chameau dans le jeu.
 
-On peut activer/desactiver cette extension avec `use_vision`, false pour le jeu de base, true pour le jeu avec extension.
+- On peut activer/desactiver cette extension avec  la variable globale `use_vision` située dans le fichier `world.ml`, false pour le jeu de base, true pour le jeu avec extension.
 
--> Les cookies :
+- Les cookies : 
 
-On place `nb_cookies`(ici 10) aléatoirement sur la carte intialement.
+    - On place `nb_cookies`(ici 10) aléatoirement sur la carte intialement.
 
-Chaque cookie augmente de le champ de vision de `increase_vision` (ici 2).
+    - Les chamaux peuvent manger les cookies en se déplaçant dessus.
 
-Le fonctionnement du champ de vision est un brouillard de guerre (fog of war) :
+    - Seuls les chamaux peuvent manger les cookies et se déplacer sur les cases contenant les cookies.
+
+    - Chaque cookie augmente le champ de vision de `increase_vision` (ici 2).
+
+- Le fonctionnement du champ de vision est un brouillard de guerre (fog of war) : 
 
 <img width="1221" height="727" alt="image" src="https://github.com/user-attachments/assets/7c666f67-8714-465c-851f-7bb9e0d0e3ca" />
 
