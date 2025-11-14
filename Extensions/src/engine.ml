@@ -2,6 +2,7 @@ open Ui
 open Effect
 open Effect.Deep
 open World
+open Globals
 
 (** L'effet [End_of_turn] indique qu'une entité est prête à passer la main car elle a terminé
     son tour.*)
@@ -28,7 +29,7 @@ let player (character : unit -> unit) : unit =
     (le type de retour 'a s'explique par le fait que la fonction n'est pas censée terminer)*)
 let run_queue () : 'a =
   while true do
-    render () ;
+    render ();
     if (not (Queue.is_empty queue)) then begin
       let suspended_character, _ = Queue.pop queue in
       suspended_character () ;
@@ -38,7 +39,7 @@ let run_queue () : 'a =
 (** [run_one_step ()] exécute la fonction correspondant au tour de la première entitées de queue.
     Si la file devient vide lors de la partie, la fonction lève l'exception [Queue.Empty].*)
 let run_one_step () : unit =
-  render () ;
+  render ();
   if (not (Queue.is_empty queue)) then begin
       let suspended_character, _ = Queue.pop queue in
       suspended_character ()

@@ -81,16 +81,20 @@ let rec sandbox_write_mode () =
       Queue.add ((fun () -> player (fun () -> spider pos)), Spider) queue;
       last_seen := Spider;
       sandbox ();
+    | `Key (`ASCII 'k', _)  when !last_seen = Empty  ->
+      last_seen := Cookie;
+      sandbox ();
     | `Key (`ASCII 'o', _)  when !last_seen = Empty  ->
         Queue.add ((fun () -> player (fun () -> egg pos)), Egg) queue;
         last_seen := Egg;
         sandbox ()
     | `Key (`ASCII 'g', _)  when !last_seen = Empty  ->
         Queue.add ((fun () -> player (fun () -> camel pos initial_vision)), Camel) queue;
+        register_camel pos initial_vision;
         last_seen := Camel;
         sandbox ()
     (* On quitte le cross mode et on y revient JAMAIS, permet de jouer sur le terrain crée *)
-    | `Key (`ASCII 'q', _)  when !last_seen = Empty  ->
+    | `Key (`ASCII 'q', _)  ->
       set !current_position !last_seen;
       game_mode := Play;
       run_queue ();

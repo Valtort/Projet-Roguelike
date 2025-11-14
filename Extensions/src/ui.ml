@@ -41,7 +41,7 @@ let horizontal_bar : image = I.string A.empty "─";;
 let big_horizontal_bar : image = I.vcat @@ List.init (height + 2) (fun _ -> vertical_bar);;
 
 let draw_coord (x , y : int*int) : image =
-  if not !use_vision then
+  if not !use_vision || !game_mode <> Play then
     (* Mode sans vision : afficher tout le monde *)
     draw_cell world.(x).(y)
   else if is_currently_visible x y then
@@ -85,17 +85,18 @@ let queue_nth q n =
   aux 0
 
 let draw_queue q =
+  let max_size = 25 in
   let text = "File de Prio" in
   let arrow_up = I.string A.empty "↑" in
   let title = I.string A.empty text in
   let q_copy = Queue.copy q in
-  let rec aux1 () =
-    if Queue.is_empty q_copy then []
+  let rec aux1 k =
+    if (Queue.is_empty q_copy) || k = 0 then []
     else
       let _, c = Queue.pop q_copy in
-      c :: aux1 ()
+      c :: aux1 (k-1)
   in
-  let l = aux1 () in
+  let l = aux1 (max_size) in
   let cells = List.map draw_cell l in
   let images = title :: arrow_up :: cells @ [arrow_up]in
 
@@ -115,7 +116,7 @@ let draw_queue q =
 let instruction () =
   I.string A.empty @@
   match !game_mode with
-    |SandboxWrite -> "c:\u{1F335} | a:\u{1F577} | g:\u{1F42A} | s:\u{1F40D} | e:\u{1F418} | o:\u{1F95A} | arrows: move \u{274C} | TAB: switch to exec mode |  q : play game (no going back)"
+    |SandboxWrite -> "c:\u{1F335} | a:\u{1F577} | g:\u{1F42A} | s:\u{1F40D} | e:\u{1F418} | o:\u{1F95A} | k: \u{1F36A} | arrows: move \u{274C} | q : play game (no going back) | TAB: switch to exec mode "
     |SandboxExec  -> "       ENTER : play one game step | q : play game (no going back) | TAB: switch to write mode"
     |Play         -> "                        Pour bouger les chameaux, utilisez les flèches";;
 
