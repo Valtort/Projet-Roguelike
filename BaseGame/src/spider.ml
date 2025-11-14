@@ -46,7 +46,8 @@ and pond_oeuf (pos : int * int) : unit =
     [current_position] et cause un appel à appear_spider tous les 20 tours*)
 and egg (current_position : int * int) : unit =
   for i=1 to 60 do
-    if ((i mod 20) = 0) then appear_spider current_position; (* tous les 20 tours fair apparaitre une araignée *)
+    if ((i mod 20) = 0) then 
+      appear_spider current_position; (* tous les 20 tours fair apparaitre une araignée *)
     perform End_of_turn;
   done;
   set current_position Empty;

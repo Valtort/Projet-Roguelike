@@ -121,8 +121,11 @@ let draw_queue (q : 'a Queue.t) : image =
 let instruction () =
   I.string A.empty @@
   match !game_mode with
-    |SandboxWrite -> "c:\u{1F335} | a:\u{1F577} | g:\u{1F42A} | s:\u{1F40D} | e:\u{1F418} | o:\u{1F95A} | k: \u{1F36A} | arrows: move \u{274C} | q : play game (no going back) | TAB: switch to exec mode "
-    |SandboxExec  -> "       ENTER : play one game step | q : play game (no going back) | TAB: switch to write mode"
+    |SandboxWrite -> "c:\u{1F335} | a:\u{1F577} | g:\u{1F42A} | s:\u{1F40D} | e:\u{1F418} \
+      | o:\u{1F95A} | k: \u{1F36A} | arrows: move \u{274C} | q : play game (no going back) \
+      | TAB: switch to exec mode "
+    |SandboxExec  -> "       ENTER : play one game step | q : play game (no going back) \
+      | TAB: switch to write mode"
     |Play         -> "                        Pour bouger les chameaux, utilisez les flèches";;
 
 open Notty_unix

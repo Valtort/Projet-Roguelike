@@ -14,7 +14,8 @@ let adjacent_empty_or_camel_cells (current_position : int * int) : (int * int) a
   (* Fonction auxiliaire qui sélectionne les coordonnées possibles (cases vides et accessibles)*)
   let rec aux sh = match sh with
     |[] -> []
-    |dX::r -> if (correct_coordinates (current_position ++ dX) && (is_empty (current_position ++ dX) || is_camel(current_position ++ dX)) )
+    |dX::r -> if (correct_coordinates (current_position ++ dX) && (is_empty (current_position ++ dX) ||
+      is_camel(current_position ++ dX)) )
                 then (current_position ++ dX)::(aux r)
               else
                 aux r
