@@ -34,7 +34,7 @@ let rec snake (current_position : int * int) : unit =
     let new_position = move current_position !target in
     perform (End_of_turn Snake);
     (* On attend un tour avant de rejouer sinon le serpent harcèle le Camel *)
-    (* perform (End_of_turn Snake); *)
+    perform (End_of_turn Snake);
     snake new_position;
   end
   else begin

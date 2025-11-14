@@ -3,7 +3,6 @@
   (modules spider snake elephant player engine ui utils world sandbox astar)
   (libraries notty.unix))
 
-
 (executable
   (public_name rogue)
   (name main)

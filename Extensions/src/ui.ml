@@ -90,7 +90,7 @@ let draw_queue (q : 'a Queue.t) : image =
   let arrow_up = I.string A.empty "↑" in
   let title = I.string A.empty text in
   let q_copy = Queue.copy q in
-  (* Fonction auxiliaire qui crée une liste d'éléments de type Cell (Camel, Elephant, Spider etc...) 
+  (* Fonction auxiliaire qui crée une liste d'éléments de type Cell (Camel, Elephant, Spider etc...)
   de taille maximal k*)
   let rec aux1 (k : int) : cell list =
     if (Queue.is_empty q_copy) || k = 0 then []
