@@ -27,11 +27,16 @@ let string_of_cell : cell -> string = function
 (** Vérifie si une case (x, y) est actuellement visible depuis au moins un camel *)
 let is_currently_visible (x : int) (y : int) : bool =
   let camels = get_camels_info () in
-  List.exists (fun camel ->
-    let (cx, cy) = camel.position in
-    let vision_range = increase_vision * camel.vision in
-    abs (x - cx) <= vision_range && abs (y - cy) <= vision_range
-  ) camels
+  List.exists
+    (fun camel ->
+      let (cx, cy) = camel.position in
+      let vision_range = float increase_vision *. float camel.vision in
+      let dx = float (x - cx) in
+      let dy = float (y - cy) in
+      (dx *. dx +. dy *. dy) <= vision_range *. vision_range
+    )
+    camels
+
 
 (** Fonctions de création de l'image correspondant à l'état actuel du monde.*)
 let draw_cell (c : cell) : image = I.string A.empty (string_of_cell c);;
