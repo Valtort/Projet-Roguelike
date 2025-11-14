@@ -82,8 +82,6 @@ C’est une référence (implémentation avec effets de bords) vers une liste tr
 ---
 
 ### Extension 2 : Champ de vision et cookies
->[!NOTE]
->On suppose ici qu'il n'y a qu'un seul chameau dans le jeu.
 
 - On peut activer/désactiver cette extension avec  la variable globale `use_vision` située dans le fichier `world.ml`, false pour le jeu de base, true pour le jeu avec extension.
 
