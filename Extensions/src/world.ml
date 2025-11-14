@@ -10,6 +10,8 @@ let use_vision = ref true  (* Si true, utilise le champ de vision ; si false, af
 
 let queue : ((unit -> unit) * cell) Queue.t = Queue.create ();;
 
+let game_mode = ref SandboxWrite;;
+
 (** Le monde [world] est un tableau mutable. *)
 let world : cell array array = Array.make_matrix width height Empty
 

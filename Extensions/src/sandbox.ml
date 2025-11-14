@@ -26,7 +26,7 @@ let move_cross (new_position : int * int) : unit =
   last_seen := tmp;;
   (*Modification pour que le tour d'un joueur ne soit pas skip si on touche une mauvaise touche*)
 
-(** [cross_write_mode ()] permet de déplacer la croix et de placer des entitées
+(** [sandbox_write_mode ()] permet de déplacer la croix et de placer des entitées
     [last_seen] permet de se souvenir de la dernière entitée que l'on a vue,
     car quand la croix passe par dessus une entitée,
     cette entitée est temporairement écrasé par la croix*)
@@ -107,7 +107,7 @@ let rec sandbox_write_mode () =
       sandbox ()
     | _                       -> sandbox_write_mode ()
 
-(** [cross_exec_mode ()] permet de faire disparaitre la croix et de jouer au jeu étapes par étapes,
+(** [sandbox_exec_mode ()] permet de faire disparaitre la croix et de jouer au jeu étapes par étapes,
 on contrôle chaques avancé dans la queue en appuyant sur Enter*)
 and sandbox_exec_mode () =
   match Term.event terminal with
@@ -127,7 +127,7 @@ and sandbox_exec_mode () =
     sandbox()
   | _                        -> sandbox_exec_mode ()
 
-(** [cross ()] permet de jouer au jeu en mode sandbox et de jouer soit au write mode ou exec mode *)
+(** [sandbox ()] permet de jouer au jeu en mode sandbox et de jouer soit au write mode ou exec mode *)
 and sandbox () : unit =
   if !game_mode = SandboxWrite then begin
     render();

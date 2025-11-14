@@ -24,7 +24,7 @@ let string_of_cell : cell -> string = function
    Des sites comme l'emojipedia peuvent vous donner plus de codes.
 *)
 
-(** Vérifie si une case (x, y) est actuellement visible depuis au moins un camel *)
+(** [is_currently_visible (x,y)] vérifie si une case [(x, y)] est actuellement visible depuis au moins un camel *)
 let is_currently_visible (x : int) (y : int) : bool =
   let camels = get_camels_info () in
   List.exists (fun camel ->
@@ -33,30 +33,27 @@ let is_currently_visible (x : int) (y : int) : bool =
     (x - cx)*(x - cx) + (y - cy)*(y - cy) <= vision_range*vision_range
   ) camels
 
-(** Fonctions de création de l'image correspondant à l'état actuel du monde.*)
+(* Fonctions de création de l'image correspondant à l'état actuel du monde.*)
 let draw_cell (c : cell) : image = I.string A.empty (string_of_cell c);;
 
 let vertical_bar : image = I.string A.empty "│";;
 let horizontal_bar : image = I.string A.empty "─";;
 let big_horizontal_bar : image = I.vcat @@ List.init (height + 2) (fun _ -> vertical_bar);;
 
-let draw_coord (x , y : int*int) : image =
+(** [draw_coord (x,y)] affiche la case [(x,y)] de world en s'adaptant en fonction de l'extension 2*)
+let draw_coord (x , y : int * int) : image =
   if not !use_vision || !game_mode <> Play || get_camels_info () = [] then
-    (* Mode sans vision : afficher tout le monde *)
+    (* Mode sans vision (!use_vison = false) : afficher tout le monde *)
+    (* ou alors !game_mode n'est pas Play, c'est à dire: on est dans le mode sandbox*)
+    (* ou alors il n'y a pas de chameaux sur le terrain *)
     draw_cell world.(x).(y)
   else if is_currently_visible x y then
     (* Case actuellement visible : afficher ce qui est vraiment là *)
     draw_cell world.(x).(y)
   else
-    (* Case hors de vue : afficher ce qui a été vu (fog of war) *)
+    (* Case hors de vue : afficher un nuage *)
     let seen_cell = get_seen (x, y) in
-    match seen_cell with
-    | Cactus ->
-        (* Seuls les cactus (éléments statiques) sont affichés en fog of war *)
-        I.string A.(fg lightblack) (string_of_cell seen_cell)
-    | _ ->
-        (* Les animaux et cookies (éléments mobiles) ne sont pas affichés hors de la vision *)
-        I.string A.empty "☁️ "
+    I.string A.empty "☁️ "
 
 (** Merci ChatGPT *)
 let draw_world () : image =
@@ -76,22 +73,28 @@ let draw_world () : image =
            world)
   @ [ big_horizontal_bar ]
 
-let queue_nth q n =
-  if n < 0 || n >= Queue.length q then invalid_arg "queue_nth";
+(** [queue_nth q n] renvoie le n-ieme élément de la file *)
+let queue_nth (q : 'a Queue.t) (n : int) : 'a  =
+  if (n < 0) || (n >= Queue.length q) then failwith"queue_nth";
   let q_copy = Queue.copy q in
-  let rec aux i =
+  (* Fonction auxiliaire qui parcourt la file *)
+  let rec aux (i : int) : 'a =
     let x = Queue.take q_copy in
     if i = n then x else aux (i + 1)
   in
   aux 0
 
-let draw_queue q =
+(** [draw_queue q] affiche la file [q]*)
+let draw_queue (q : 'a Queue.t) : unit =
+  (* Choix arbitraire de taille de file *)
   let max_size = 25 in
-  let text = "File de Prio" in
+  let text = "File d'exec" in
   let arrow_up = I.string A.empty "↑" in
   let title = I.string A.empty text in
   let q_copy = Queue.copy q in
-  let rec aux1 k =
+  (* Fonction auxiliaire qui crée une liste d'éléments de type Cell (Camel, Elephant, Spider etc...) 
+  de taille maximal k*)
+  let rec aux1 (k : int) : Cell list =
     if (Queue.is_empty q_copy) || k = 0 then []
     else
       let _, c = Queue.pop q_copy in
@@ -99,13 +102,15 @@ let draw_queue q =
   in
   let l = aux1 (max_size) in
   let cells = List.map draw_cell l in
-  let images = title :: arrow_up :: cells @ [arrow_up]in
+  let images = title :: arrow_up :: cells @ [arrow_up] in
 
-  (* Compute max width to center everything *)
+  (* Calcule de la largeur maximal pour pouvoir tout centrer*)
   let max_w =
+    (* acc garde le max qu'on a vu parmis la liste de toutes les images *)
     List.fold_left (fun acc img -> max acc (I.width img)) 0 images
   in
   let centered_images =
+    (* Centre chacunes des images en mettant du padding à gauche et à droite de l'image *)
     List.map
       (fun img ->
          let pad = (max_w - I.width img) / 2 in
@@ -114,6 +119,7 @@ let draw_queue q =
   in
   I.vcat centered_images
 
+(* Affiche les instructions en bas de l'écran *)
 let instruction () =
   I.string A.empty @@
   match !game_mode with
@@ -126,6 +132,7 @@ open Notty_unix
 (** [terminal] est une constante qui correspond au terminal où le jeu est joué*)
 let terminal : Term.t = Term.create ()
 
+(** [render_sandbox ()]  met à jour l'affichage courant dans le terminal quand on est en mode sandbox*)
 let render_sandbox () = Term.image terminal (
   I.(<->)
     (I.(<|>)
@@ -134,6 +141,7 @@ let render_sandbox () = Term.image terminal (
     (instruction ())
   )
 
+(** [render_play ()]  met à jour l'affichage courant dans le terminal quand on est en mode sandbox*)
 let render_play () = Term.image terminal (
   I.(<->)
     (draw_world ())

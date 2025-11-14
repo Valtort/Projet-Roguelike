@@ -20,7 +20,7 @@ let random_position () : int * int = (Random.int width, Random.int height)
 (* Place les cactus, le chameau, l'éléphant initialement.*)
 
 let () =
-  for _ = 0 to 200 do set (random_position ()) Cactus   done
+  for _ = 0 to 200 do set (random_position ()) Cactus done
 
 let () =
   for _ = 1 to nb_cookies do set (random_position ()) Cookie done

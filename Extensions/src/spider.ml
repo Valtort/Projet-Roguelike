@@ -29,7 +29,8 @@ let rec spider (current_position : int * int) : unit =
   if r < proba_pondre then pond_oeuf new_position; (* pondre oeuf avec probabilité proba_pondre/100 *)
   perform (End_of_turn Spider);
   spider new_position;
-(* [pond_oeuf] pond un oeuf sur la case pos et ajoute l'entitée egg à la file *)
+
+(** [pond_oeuf] pond un oeuf sur la case pos et ajoute l'entitée egg à la file *)
 and pond_oeuf pos =
   let aec = adjacent_empty_cells pos in
   let n = Array.length aec in
@@ -40,7 +41,8 @@ and pond_oeuf pos =
     set egg_pos Egg;
     Queue.add ((fun () -> player (fun () -> egg egg_pos)), Egg) queue;
   end;
-(* [egg current_position] effectue tous les prochains tours de l'oeuf à partir de la position
+
+(** [egg current_position] effectue tous les prochains tours de l'oeuf à partir de la position
     [current_position] et cause un appel à appear_spider tous les 20 tours*)
 and egg (current_position : int * int) : unit =
   for i=1 to 60 do
@@ -49,6 +51,9 @@ and egg (current_position : int * int) : unit =
     perform (End_of_turn Egg);
   done;
   set current_position Empty;
+
+(** [appear_spider current_position] fait apparaitre une araignée sur une case vide adjacente à
+  [current_position] et ajoute cette araignée à la queue*) 
 and appear_spider (egg_pos : int * int) =
   let aec = adjacent_empty_cells egg_pos in
   let n =  Array.length aec in
